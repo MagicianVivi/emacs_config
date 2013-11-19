@@ -18,6 +18,7 @@
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(menu-bar-mode nil)
+ '(ns-right-alternate-modifier (quote none))
  '(tab-width 2)
  '(tool-bar-mode nil))
 (custom-set-faces
@@ -25,11 +26,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 97 :width normal)))))
+ '(default ((t (:family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 120 :width normal)))))
 
-;; Emmet
-(require 'emmet-mode)
-(add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
+;; Emmet (require 'emmet-mode) (add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
 (add-hook 'css-mode-hook 'emmet-mode)
 
 ;; Scala
@@ -48,9 +47,3 @@
 (require 'fill-column-indicator)
 (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
 (global-fci-mode 1)
-
-;; Untabify
-;; if indent-tabs-mode is off, untabify before saving
-(add-hook 'write-file-hooks 
-           (lambda () (if (not indent-tabs-mode)
-                         (untabify (point-min) (point-max)))))
