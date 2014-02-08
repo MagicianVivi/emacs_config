@@ -15,7 +15,8 @@
  '(background-mode dark)
  '(column-number-mode t)
  '(cursor-color nil)
- '(custom-safe-themes (quote ("fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
+ '(custom-safe-themes (quote ("57072d797dc09fcf563051a85a29d6a51d6f2b1a602e029c35b05c30df319b2a" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
+ '(electric-indent-mode t)
  '(electric-pair-mode t)
  '(fill-column 79)
  '(flycheck-checkers (quote (bash c/c++-clang c/c++-cppcheck coffee coffee-coffeelint css-csslint d-dmd elixir emacs-lisp emacs-lisp-checkdoc erlang go-gofmt go-build go-test haml haskell-ghc haskell-hlint html-tidy javascript-jshint javascript-gjslint json-jsonlint less lua perl php php-phpmd php-phpcs puppet-parser puppet-lint python-flake8 python-pylint rst ruby-rubocop ruby ruby-jruby rust sass scala scss sh-dash sh-bash slim tex-chktex tex-lacheck xml-xmlstarlet xml-xmllint yaml-ruby zsh)))
@@ -37,12 +38,29 @@
 
 ;; Emmet (require 'emmet-mode) (add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
 (add-hook 'css-mode-hook 'emmet-mode)
+(add-hook 'js-mode-hook 'color-identifiers-mode)
 
 ;; Scala
 (require 'scala-mode2)
+(add-hook 'scala-mode-hook 'color-identifiers-mode)
 
 ;; Flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
+
+;; IDO
+(require 'ido)
+
+;; flx
+(require 'flx-ido)
+(ido-mode 1)
+(ido-everywhere 1)
+(flx-ido-mode 1)
+;; disable ido faces to see flx highlights.
+(setq ido-use-faces nil)
+
+;; projectile
+(require 'projectile)
+(projectile-global-mode)
 
 ;; non-Cask
 (add-to-list 'load-path "~/.emacs.d/lisp/")
@@ -55,6 +73,5 @@
 (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
 (global-fci-mode 1)
 
-;; IDO
-(require 'ido)
-(ido-mode t)
+;; Cleanup before save
+(add-hook 'before-save-hook 'whitespace-cleanup)

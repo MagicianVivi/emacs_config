@@ -6,3 +6,8 @@
 (depends-on "scala-mode2")
 (depends-on "emmet-mode")
 (depends-on "flycheck")
+(depends-on "flx-ido")
+(depends-on "ack-and-a-half")
+(depends-on "projectile")
+(depends-on "color-identifiers-mode")
+(depends-on "yasnippet")
