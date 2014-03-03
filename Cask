@@ -11,3 +11,4 @@
 (depends-on "multiple-cursors")
 (depends-on "clojure-mode")
 (depends-on "rainbow-delimiters")
+(depends-on "fill-column-indicator")
