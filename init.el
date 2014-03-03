@@ -19,13 +19,12 @@
  '(electric-indent-mode t)
  '(electric-pair-mode t)
  '(fill-column 79)
- '(flycheck-checkers (quote (bash c/c++-clang c/c++-cppcheck coffee coffee-coffeelint css-csslint d-dmd elixir emacs-lisp emacs-lisp-checkdoc erlang go-gofmt go-build go-test haml haskell-ghc haskell-hlint html-tidy javascript-jshint javascript-gjslint json-jsonlint less lua perl php php-phpmd php-phpcs puppet-parser puppet-lint python-flake8 python-pylint rst ruby-rubocop ruby ruby-jruby rust sass scala scss sh-dash sh-bash slim tex-chktex tex-lacheck xml-xmlstarlet xml-xmllint yaml-ruby zsh)))
+ '(flycheck-checkers (quote (c/c++-clang c/c++-cppcheck coffee coffee-coffeelint css-csslint d-dmd elixir emacs-lisp emacs-lisp-checkdoc erlang go-gofmt go-build go-test haml haskell-ghc haskell-hlint html-tidy javascript-jshint javascript-gjslint json-jsonlint less lua perl php php-phpmd php-phpcs puppet-parser puppet-lint python-flake8 python-pylint rst ruby-rubocop ruby ruby-jruby rust sass scala scss sh-bash slim tex-chktex tex-lacheck xml-xmlstarlet xml-xmllint yaml-ruby)))
  '(foreground-color nil)
  '(global-linum-mode t)
  '(ido-enable-flex-matching t)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
- '(menu-bar-mode nil)
  '(ns-right-alternate-modifier (quote none))
  '(tab-width 2)
  '(tool-bar-mode nil))
@@ -36,22 +35,13 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 120 :width normal)))))
 
-;; Emmet (require 'emmet-mode) (add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
-(add-hook 'css-mode-hook 'emmet-mode)
-(add-hook 'js-mode-hook 'color-identifiers-mode)
-
-;; Scala
-(require 'scala-mode2)
-(add-hook 'scala-mode-hook 'color-identifiers-mode)
+;; Rainbow !!!
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
 ;; Flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
-;; IDO
-(require 'ido)
-
 ;; flx
-(require 'flx-ido)
 (ido-mode 1)
 (ido-everywhere 1)
 (flx-ido-mode 1)
@@ -59,8 +49,13 @@
 (setq ido-use-faces nil)
 
 ;; projectile
-(require 'projectile)
 (projectile-global-mode)
+
+;; cursors
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 ;; non-Cask
 (add-to-list 'load-path "~/.emacs.d/lisp/")
