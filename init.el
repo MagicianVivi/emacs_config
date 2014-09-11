@@ -15,7 +15,7 @@
  '(background-mode dark)
  '(column-number-mode t)
  '(cursor-color nil)
- '(custom-safe-themes (quote ("57072d797dc09fcf563051a85a29d6a51d6f2b1a602e029c35b05c30df319b2a" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
+ '(custom-safe-themes (quote ("3a727bdc09a7a141e58925258b6e873c65ccf393b2240c51553098ca93957723" "756597b162f1be60a12dbd52bab71d40d6a2845a3e3c2584c6573ee9c332a66e" "6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" "57072d797dc09fcf563051a85a29d6a51d6f2b1a602e029c35b05c30df319b2a" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
  '(electric-indent-mode t)
  '(electric-pair-mode t)
  '(fill-column 79)
@@ -25,9 +25,12 @@
  '(ido-enable-flex-matching t)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
+ '(js-indent-level 2)
  '(ns-right-alternate-modifier (quote none))
+ '(python-indent-offset 2)
  '(tab-width 2)
- '(tool-bar-mode nil))
+ '(tool-bar-mode nil)
+ '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -63,3 +66,16 @@
 
 ;; Cleanup before save
 (add-hook 'before-save-hook 'whitespace-cleanup)
+
+;; Ace jump
+(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+
+;; Uniquify
+(require 'uniquify)
+
+;; Haskell
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+
+;; Smart-mode-line
+(sml/setup)
+(sml/apply-theme 'dark)

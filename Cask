@@ -12,3 +12,6 @@
 (depends-on "clojure-mode")
 (depends-on "rainbow-delimiters")
 (depends-on "fill-column-indicator")
+(depends-on "ace-jump-mode")
+(depends-on "haskell-mode")
+(depends-on "smart-mode-line")
