@@ -28,6 +28,7 @@
  '(js-indent-level 2)
  '(ns-right-alternate-modifier (quote none))
  '(python-indent-offset 2)
+ '(scroll-bar-mode nil)
  '(tab-width 2)
  '(tool-bar-mode nil)
  '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
