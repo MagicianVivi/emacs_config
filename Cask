@@ -15,3 +15,5 @@
 (depends-on "ace-jump-mode")
 (depends-on "haskell-mode")
 (depends-on "smart-mode-line")
+(depends-on "idris-mode")
+(depends-on "neotree")
