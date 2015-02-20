@@ -17,3 +17,4 @@
 (depends-on "smart-mode-line")
 (depends-on "idris-mode")
 (depends-on "neotree")
+(depends-on "nyan-mode")
