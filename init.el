@@ -77,6 +77,10 @@
 ;; Ace jump
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 
+;; Ace Window
+(define-key global-map (kbd "M-p") 'ace-window)
+(setq aw-keys '(?a ?u ?i ?e ?t ?s ?r ?n))
+
 ;; Uniquify
 (require 'uniquify)
 

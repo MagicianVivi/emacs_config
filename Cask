@@ -13,6 +13,7 @@
 (depends-on "rainbow-delimiters")
 (depends-on "fill-column-indicator")
 (depends-on "ace-jump-mode")
+(depends-on "ace-window")
 (depends-on "haskell-mode")
 (depends-on "smart-mode-line")
 (depends-on "idris-mode")
