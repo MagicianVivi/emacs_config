@@ -3,8 +3,7 @@
 (cask-initialize)
 
 ;; Theme
-(load-theme 'deeper-blue t)
-(load-theme 'solarized t)
+(load-theme 'solarized-dark t)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -32,6 +31,7 @@
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(js-indent-level 2)
+ '(menu-bar-mode nil)
  '(ns-right-alternate-modifier (quote none))
  '(python-indent-offset 2)
  '(scroll-bar-mode nil)
@@ -53,6 +53,8 @@
 
 ;; flx
 (ido-mode 1)
+(ido-vertical-mode 1)
+(setq ido-vertical-show-count t)
 (ido-everywhere 1)
 (flx-ido-mode 1)
 ;; disable ido faces to see flx highlights.
@@ -110,3 +112,8 @@
 ;; Nyan
 (nyan-mode 1)
 (setq nyan-wavy-trail t)
+
+;; Enable guide-key-mode
+(setq guide-key/guide-key-sequence '("C-x" "C-c"))
+(setq guide-key/recursive-key-sequence-flag t)
+(guide-key-mode 1)
