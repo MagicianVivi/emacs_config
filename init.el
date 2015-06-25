@@ -43,13 +43,22 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 120 :width normal))))
+ '(rainbow-delimiters-depth-1-face ((t (:foreground "base3"))))
+ '(rainbow-delimiters-depth-2-face ((t (:foreground "blue"))))
+ '(rainbow-delimiters-depth-3-face ((t (:foreground "cyan"))))
+ '(rainbow-delimiters-depth-4-face ((t (:foreground "yellow"))))
+ '(rainbow-delimiters-depth-5-face ((t (:foreground "red"))))
+ '(rainbow-delimiters-depth-6-face ((t (:foreground "orange"))))
+ '(rainbow-delimiters-depth-7-face ((t (:foreground "magenta"))))
+ '(rainbow-delimiters-depth-8-face ((t (:foreground "violet"))))
  '(sbt:error ((t (:inherit none))))
  '(sml/col-number ((t (:inherit sml/prefix))))
  '(sml/filename ((t (:inherit sml/global))))
  '(sml/line-number ((t (:inherit sml/prefix :weight normal)))))
 
 ;; Rainbow !!!
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
 ;; Flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
