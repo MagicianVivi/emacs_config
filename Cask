@@ -33,6 +33,7 @@
 (depends-on "magit")
 ;; Scala
 (depends-on "scala-mode2")
+(depends-on "sbt-mode")
 ;; Haskell
 (depends-on "haskell-mode")
 ;; Idris

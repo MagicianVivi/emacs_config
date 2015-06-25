@@ -19,7 +19,7 @@
  '(cursor-color nil)
  '(custom-safe-themes
 	 (quote
-		("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "31a01668c84d03862a970c471edbd377b2430868eccf5e8a9aec6831f1a0908d" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "1297a022df4228b81bc0436230f211bad168a117282c20ddcba2db8c6a200743" "3a727bdc09a7a141e58925258b6e873c65ccf393b2240c51553098ca93957723" "756597b162f1be60a12dbd52bab71d40d6a2845a3e3c2584c6573ee9c332a66e" "6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" "57072d797dc09fcf563051a85a29d6a51d6f2b1a602e029c35b05c30df319b2a" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
+		("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "31a01668c84d03862a970c471edbd377b2430868eccf5e8a9aec6831f1a0908d" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "1297a022df4228b81bc0436230f211bad168a117282c20ddcba2db8c6a200743" "3a727bdc09a7a141e58925258b6e873c65ccf393b2240c51553098ca93957723" "756597b162f1be60a12dbd52bab71d40d6a2845a3e3c2584c6573ee9c332a66e" "6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" "57072d797dc09fcf563051a85a29d6a51d6f2b1a602e029c35b05c30df319b2a" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
  '(electric-indent-mode t)
  '(electric-pair-mode t)
  '(fill-column 79)
@@ -45,6 +45,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 120 :width normal))))
+ '(sbt:error ((t (:inherit none))))
  '(sml/col-number ((t (:inherit sml/prefix))))
  '(sml/filename ((t (:inherit sml/global))))
  '(sml/line-number ((t (:inherit sml/prefix :weight normal)))))
@@ -124,3 +125,22 @@
 
 ;; Hack to blacklist a list of minor mode by regexp
 (setq rm-blacklist (mapconcat 'identity [" hl-p" " Guide" " Projectile"] "\\|"))
+
+;; Scala
+(defun test-only ()
+  "Run test with current file."
+  (interactive)
+  (sbt-command (concat "testOnly " (find-spec-name))))
+
+(defun find-spec-name ()
+  "Find spec name of current buffer."
+  (concat "*." (file-name-sans-extension (file-name-nondirectory (buffer-name)))))
+
+(defun compile-sbt-project ()
+  "Compile the sbt project."
+	(interactive)
+	(sbt-command "test:compile"))
+
+(add-hook 'scala-mode-hook 'sbt-start)
+(define-key global-map (kbd "C-c C-t") 'test-only)
+(define-key global-map (kbd "C-c C-s") 'compile-sbt-project)
