@@ -35,7 +35,6 @@
  '(projectile-globally-ignored-directories
 	 (quote
 		(".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".ensime_cache")))
- '(projectile-switch-project-hook (quote (ensime-reload)))
  '(python-indent-offset 2)
  '(scroll-bar-mode nil)
  '(tab-width 2)
