@@ -29,9 +29,13 @@
  '(ido-enable-flex-matching t)
  '(indent-tabs-mode t)
  '(inhibit-startup-screen t)
- '(js-indent-level 2)
+ '(js-indent-level 4)
  '(menu-bar-mode nil)
  '(ns-right-alternate-modifier (quote none))
+ '(projectile-globally-ignored-directories
+	 (quote
+		(".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".ensime_cache")))
+ '(projectile-switch-project-hook (quote (ensime-reload)))
  '(python-indent-offset 2)
  '(scroll-bar-mode nil)
  '(tab-width 2)
@@ -43,6 +47,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 120 :width normal))))
+ '(ensime-implicit-highlight ((t nil)))
  '(rainbow-delimiters-depth-1-face ((t (:foreground "base3"))))
  '(rainbow-delimiters-depth-2-face ((t (:foreground "blue"))))
  '(rainbow-delimiters-depth-3-face ((t (:foreground "cyan"))))
@@ -134,20 +139,5 @@
 (setq rm-blacklist (mapconcat 'identity [" hl-p" " Guide" " Projectile"] "\\|"))
 
 ;; Scala
-(defun test-only ()
-  "Run test with current file."
-  (interactive)
-  (sbt-command (concat "testOnly " (find-spec-name))))
-
-(defun find-spec-name ()
-  "Find spec name of current buffer."
-  (concat "*." (file-name-sans-extension (file-name-nondirectory (buffer-name)))))
-
-(defun compile-sbt-project ()
-  "Compile the sbt project."
-	(interactive)
-	(sbt-command "test:compile"))
-
-(add-hook 'scala-mode-hook 'sbt-start)
-(define-key global-map (kbd "C-c C-t") 'test-only)
-(define-key global-map (kbd "C-c C-s") 'compile-sbt-project)
+(require 'ensime)
+(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)

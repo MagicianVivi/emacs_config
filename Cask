@@ -14,6 +14,8 @@
 (depends-on "fill-column-indicator")
 ;; Multiple-cursors a la Sublime
 (depends-on "multiple-cursors")
+;; Term
+(depends-on "multi-term")
 ;; Flycheck
 (depends-on "flycheck")
 ;; Guide-key
@@ -33,7 +35,7 @@
 (depends-on "magit")
 ;; Scala
 (depends-on "scala-mode2")
-(depends-on "sbt-mode")
+(depends-on "ensime")
 ;; Haskell
 (depends-on "haskell-mode")
 ;; Idris
