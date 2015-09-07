@@ -26,8 +26,6 @@
 ;; Ace jump
 (depends-on "ace-jump-mode")
 (depends-on "ace-window")
-;; File tree
-(depends-on "neotree")
 ;; Projectile
 (depends-on "ag")
 (depends-on "projectile")
