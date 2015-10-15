@@ -27,11 +27,13 @@
  '(frame-background-mode (quote dark))
  '(global-linum-mode t)
  '(ido-enable-flex-matching t)
+ '(idris-interpreter-path "~/Idris/.cabal-sandbox/bin/idris")
  '(indent-tabs-mode t)
  '(inhibit-startup-screen t)
  '(js-indent-level 4)
  '(menu-bar-mode nil)
  '(ns-right-alternate-modifier (quote none))
+ '(org-export-backends (quote (ascii beamer html icalendar latex md)))
  '(projectile-globally-ignored-directories
 	 (quote
 		(".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".ensime_cache")))
@@ -69,8 +71,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 120 :width normal))))
- '(ensime-implicit-highlight ((t nil)))
+ '(default ((t (:family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 140 :width normal))))
  '(rainbow-delimiters-depth-1-face ((t (:foreground "base3"))))
  '(rainbow-delimiters-depth-2-face ((t (:foreground "blue"))))
  '(rainbow-delimiters-depth-3-face ((t (:foreground "cyan"))))
@@ -137,7 +138,6 @@
 
 ;; Nyan
 (nyan-mode t)
-(setq nyan-wavy-trail t)
 
 ;; Enable guide-key-mode
 (setq guide-key/guide-key-sequence '("C-x" "C-c"))
@@ -146,10 +146,6 @@
 
 ;; Hack to blacklist a list of minor mode by regexp
 (setq rm-blacklist (mapconcat 'identity [" hl-p" " Guide" " Projectile"] "\\|"))
-
-;; Scala
-(require 'ensime)
-(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
 
 ;; Swiper
 (ivy-mode 1)
