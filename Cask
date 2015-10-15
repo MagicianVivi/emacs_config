@@ -26,6 +26,8 @@
 ;; Ace jump
 (depends-on "ace-jump-mode")
 (depends-on "ace-window")
+;; Swiper
+(depends-on "swiper")
 ;; Projectile
 (depends-on "ag")
 (depends-on "projectile")
