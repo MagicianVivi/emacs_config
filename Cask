@@ -6,6 +6,8 @@
 (depends-on "color-theme-solarized")
 ;; SML
 (depends-on "smart-mode-line")
+;; Mode line ala spacemacs
+(depends-on "spaceline")
 ;; Nyan!
 (depends-on "nyan-mode")
 ;; Rainbow !!
@@ -14,15 +16,14 @@
 (depends-on "fill-column-indicator")
 ;; Multiple-cursors a la Sublime
 (depends-on "multiple-cursors")
+;; Browse kill ring
+(depends-on "browse-kill-ring")
 ;; Term
 (depends-on "multi-term")
 ;; Flycheck
 (depends-on "flycheck")
 ;; Guide-key
 (depends-on "guide-key")
-;; Ido
-(depends-on "flx-ido")
-(depends-on "ido-vertical-mode")
 ;; Ace jump
 (depends-on "ace-jump-mode")
 (depends-on "ace-window")

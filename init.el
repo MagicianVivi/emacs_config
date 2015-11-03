@@ -1,5 +1,5 @@
 ;; Cask
-(require 'cask "~/.cask/cask.el")
+(require 'cask "/usr/share/cask/cask.el")
 (cask-initialize)
 
 ;; Theme
@@ -26,7 +26,6 @@
  '(foreground-color nil)
  '(frame-background-mode (quote dark))
  '(global-linum-mode t)
- '(ido-enable-flex-matching t)
  '(idris-interpreter-path "~/Idris/.cabal-sandbox/bin/idris")
  '(indent-tabs-mode t)
  '(inhibit-startup-screen t)
@@ -34,6 +33,7 @@
  '(menu-bar-mode nil)
  '(ns-right-alternate-modifier (quote none))
  '(org-export-backends (quote (ascii beamer html icalendar latex md)))
+ '(powerline-default-separator (quote wave))
  '(projectile-globally-ignored-directories
 	 (quote
 		(".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".ensime_cache")))
@@ -65,6 +65,7 @@
 	 (quote
 		("C-z" "C-x" "C-c" "C-h" "C-y" "<ESC>" "<f10>" "<f5>" "<f1>" "<f10>")))
  '(tool-bar-mode nil)
+ '(tramp-default-method "ssh")
  '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -93,17 +94,9 @@
 ;; Flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
-;; flx
-(ido-mode t)
-(ido-vertical-mode t)
-(setq ido-vertical-show-count t)
-(ido-everywhere t)
-(flx-ido-mode t)
-;; disable ido faces to see flx highlights.
-(setq ido-use-faces nil)
-
 ;; projectile
 (projectile-global-mode)
+(setq projectile-completion-system 'ivy)
 
 ;; cursors
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
@@ -135,6 +128,9 @@
 ;; Smart-mode-line
 (sml/setup)
 (sml/apply-theme 'respectful)
+;; TODO switch to spaceline, or at list wavy powerline
+;;(require 'spaceline-config)
+;;(spaceline-emacs-theme)
 
 ;; Nyan
 (nyan-mode t)
