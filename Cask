@@ -16,8 +16,6 @@
 (depends-on "fill-column-indicator")
 ;; Multiple-cursors a la Sublime
 (depends-on "multiple-cursors")
-;; Browse kill ring
-(depends-on "browse-kill-ring")
 ;; Term
 (depends-on "multi-term")
 ;; Flycheck
@@ -25,7 +23,7 @@
 ;; Guide-key
 (depends-on "guide-key")
 ;; Ace jump
-(depends-on "ace-jump-mode")
+(depends-on "avy")
 (depends-on "ace-window")
 ;; Swiper
 (depends-on "swiper")

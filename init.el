@@ -72,7 +72,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 140 :width normal))))
+ '(default ((t (:family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 120 :width normal))))
  '(rainbow-delimiters-depth-1-face ((t (:foreground "base3"))))
  '(rainbow-delimiters-depth-2-face ((t (:foreground "blue"))))
  '(rainbow-delimiters-depth-3-face ((t (:foreground "cyan"))))
@@ -111,8 +111,9 @@
 ;; Cleanup before save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-;; Ace jump
-(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+;; Avy
+(global-set-key (kbd "C-:") 'avy-goto-char)
+(global-set-key (kbd "C-c SPC") 'avy-goto-word-1)
 
 ;; Ace Window
 (define-key global-map (kbd "C-x o") 'ace-window)
