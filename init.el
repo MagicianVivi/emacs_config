@@ -26,12 +26,20 @@
  '(foreground-color nil)
  '(frame-background-mode (quote dark))
  '(global-linum-mode t)
+ '(guide-key-mode t)
+ '(guide-key/guide-key-sequence (quote ("C-x" "C-c")))
+ '(guide-key/recursive-key-sequence-flag t)
  '(idris-interpreter-path "~/Idris/.cabal-sandbox/bin/idris")
  '(indent-tabs-mode t)
  '(inhibit-startup-screen t)
+ '(ivy-count-format "(%d/%d) ")
+ '(ivy-mode t)
+ '(ivy-use-virtual-buffers t)
  '(js-indent-level 4)
  '(menu-bar-mode nil)
  '(ns-right-alternate-modifier (quote none))
+ '(nyan-animate-nyancat t)
+ '(nyan-wavy-trail t)
  '(org-export-backends (quote (ascii beamer html icalendar latex md)))
  '(powerline-default-separator (quote wave))
  '(projectile-globally-ignored-directories
@@ -73,6 +81,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 120 :width normal))))
+ '(fringe ((t nil)))
  '(rainbow-delimiters-depth-1-face ((t (:foreground "base3"))))
  '(rainbow-delimiters-depth-2-face ((t (:foreground "blue"))))
  '(rainbow-delimiters-depth-3-face ((t (:foreground "cyan"))))
@@ -136,17 +145,10 @@
 ;; Nyan
 (nyan-mode t)
 
-;; Enable guide-key-mode
-(setq guide-key/guide-key-sequence '("C-x" "C-c"))
-(setq guide-key/recursive-key-sequence-flag t)
-(guide-key-mode t)
-
 ;; Hack to blacklist a list of minor mode by regexp
 (setq rm-blacklist (mapconcat 'identity [" hl-p" " Guide" " Projectile"] "\\|"))
 
 ;; Swiper
-(ivy-mode 1)
-(setq ivy-use-virtual-buffers t)
 (global-set-key "\C-s" 'swiper)
 (global-set-key "\C-r" 'swiper)
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
