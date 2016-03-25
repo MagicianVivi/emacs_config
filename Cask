@@ -6,8 +6,6 @@
 (depends-on "color-theme-solarized")
 ;; SML
 (depends-on "smart-mode-line")
-;; Mode line ala spacemacs
-(depends-on "spaceline")
 ;; Nyan!
 (depends-on "nyan-mode")
 ;; Rainbow !!
@@ -20,6 +18,7 @@
 (depends-on "multi-term")
 ;; Flycheck
 (depends-on "flycheck")
+(depends-on "seq")
 ;; Guide-key
 (depends-on "guide-key")
 ;; Ace jump
@@ -32,9 +31,12 @@
 (depends-on "projectile")
 ;; Magit
 (depends-on "magit")
+(depends-on "magit-gh-pulls")
 ;; Scala
 (depends-on "scala-mode2")
 ;; Haskell
 (depends-on "haskell-mode")
 ;; Idris
 (depends-on "idris-mode")
+;; Jenkins
+(depends-on "butler")
