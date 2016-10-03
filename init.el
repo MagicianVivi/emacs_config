@@ -1,16 +1,9 @@
-;; Cask
+(require 'package)
+(setq package-enable-at-startup nil)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
 
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
 (package-initialize)
-
-(require 'cask "/usr/share/cask/cask.el")
-(cask-initialize)
-
-;; Theme
-(load-theme 'solarized t)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -29,7 +22,6 @@
  '(dired-listing-switches "-alh")
  '(electric-indent-mode t)
  '(electric-pair-mode t)
- '(fill-column 79)
  '(flycheck-checkers
 	 (quote
 		(c/c++-clang c/c++-cppcheck coffee coffee-coffeelint css-csslint d-dmd elixir emacs-lisp emacs-lisp-checkdoc erlang go-gofmt go-build go-test haml haskell-ghc haskell-hlint html-tidy javascript-jshint javascript-gjslint json-jsonlint less lua perl php php-phpmd php-phpcs puppet-parser puppet-lint python-flake8 python-pylint rst ruby-rubocop ruby ruby-jruby rust sass scala scss sh-bash slim tex-chktex tex-lacheck xml-xmlstarlet xml-xmllint yaml-ruby)))
@@ -44,14 +36,9 @@
  '(ivy-count-format "(%d/%d) ")
  '(ivy-mode t)
  '(ivy-use-virtual-buffers t)
- '(jenkins-api-token "43934f5a0b7c57762cf8cd4031884450")
- '(jenkins-url "https://jenkins.teads.net:443/")
- '(jenkins-username "darthabel")
  '(js-indent-level 2)
  '(menu-bar-mode nil)
  '(ns-right-alternate-modifier (quote none))
- '(nyan-animate-nyancat t)
- '(nyan-wavy-trail t)
  '(org-export-backends (quote (ascii beamer html icalendar latex md)))
  '(org-log-done (quote time))
  '(org-todo-keyword-faces
@@ -61,6 +48,9 @@
  '(org-todo-keywords
 	 (quote
 		((sequence "TODO" "IN PROGRESS" "TO MERGE/DEPLOY" "|" "DONE"))))
+ '(package-selected-packages
+	 (quote
+		(ace-window use-package solarized-theme rainbow-delimiters projectile multiple-cursors flycheck fill-column-indicator color-theme-solarized avy)))
  '(projectile-globally-ignored-directories
 	 (quote
 		(".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".ensime_cache")))
@@ -117,86 +107,167 @@
  '(sml/line-number ((t (:inherit sml/prefix :weight normal))))
  '(term-color-black ((t (:foreground "#b58900")))))
 
-;; Rainbow !!!
-(require 'rainbow-delimiters)
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+;; Bootstrap `use-package'
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
-;; Flycheck
-(global-flycheck-mode)
+(use-package solarized-theme
+  :ensure t)
 
-;; projectile
-(projectile-global-mode)
-(setq projectile-completion-system 'ivy)
+(use-package rainbow-delimiters
+  :ensure t
+  :init
+  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
-;; cursors
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+(use-package flycheck
+  :ensure t
+  :init
+  (global-flycheck-mode))
 
-;; Column line
-(define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode t)))
-(global-fci-mode t)
+(use-package ag
+  :ensure t)
 
-;; Cleanup before save
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(use-package projectile
+  :ensure t
+  :init
+  (projectile-global-mode)
+  :config
+  (setq projectile-completion-system 'ivy))
 
-;; Avy
-(global-set-key (kbd "C-:") 'avy-goto-char)
-(global-set-key (kbd "C-c SPC") 'avy-goto-word-1)
+(use-package multiple-cursors
+  :ensure t
+  :bind
+  (("C-S-c C-S-c" . mc/edit-lines)
+   ("C->" . mc/mark-next-like-this)
+   ("C-<" . mc/mark-previous-like-this)
+   ("C-c C-<" . mc/mark-all-like-this)))
 
-;; Ace Window
-(define-key global-map (kbd "C-x o") 'ace-window)
-(setq aw-keys '(?a ?u ?i ?e ?t ?s ?r ?n))
+(use-package fill-column-indicator
+  :ensure t
+  :init
+  (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode t)))
+  (global-fci-mode t)
+  :config
+  (setq fill-column 79))
 
-;; Uniquify
+(use-package avy
+  :ensure t
+  :bind
+  (("C-:" . avy-goto-char)
+   ("C-c SPC" . avy-goto-word-1)))
+
+(use-package ace-window
+  :ensure t
+  :bind
+  ("C-x o" . ace-window)
+  :config
+  (setq aw-keys '(?a ?u ?i ?e ?t ?s ?r ?n)))
+
+(use-package haskell-mode
+  :ensure t
+  :init
+ (add-hook 'haskell-mode-hook 'haskell-simple-indent-mode)
+ (add-hook 'haskell-mode-hook 'haskell-doc-mode))
+
+(use-package smart-mode-line
+  :ensure t
+  :init
+  (setq sml/theme 'respectful)
+  (sml/setup))
+
+(use-package nyan-mode
+  :ensure t
+  :init
+  (nyan-mode t)
+  :config
+  (setq nyan-animate-nyancat t)
+  (setq nyan-wavy-trail t))
+
+(use-package swiper
+  :ensure t
+  :bind
+  (("\C-s" . swiper)
+   ("\C-r" . swiper)
+   ("C-c C-r" . ivy-resume)))
+
+(use-package magit
+  :ensure t
+  :init
+  (global-magit-file-mode t))
+
+(use-package magit-gh-pulls
+  :ensure t
+  :init
+  (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls))
+
+(use-package markdown-mode
+  :ensure t
+  :init
+  (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode)))
+
+(use-package company
+  :ensure t
+  :init
+  (add-hook 'after-init-hook 'global-company-mode)
+  :config
+  (setq company-tooltip-align-annotations t))
+
+(use-package rust-mode
+  :ensure t)
+
+(use-package flycheck-rust
+  :ensure t
+  :init
+  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+
+(use-package racer
+  :ensure t
+  :init
+  (add-hook 'rust-mode-hook #'racer-mode)
+  (add-hook 'racer-mode-hook #'eldoc-mode)
+  (add-hook 'racer-mode-hook #'company-mode)
+  :config
+  (setq racer-rust-src-path "/usr/src/rust/src/"))
+
+(use-package cargo
+  :ensure t
+  :init
+  (add-hook 'rust-mode-hook 'cargo-minor-mode))
+
+(use-package multi-term
+  :ensure t)
+
+(use-package guide-key
+  :ensure t)
+
+(use-package scala-mode
+  :ensure t)
+
+(use-package groovy-mode
+  :ensure t)
+
+(use-package idris-mode
+  :ensure t)
+
+(use-package cql-mode
+  :ensure t)
+
 (require 'uniquify)
-
-;; Haskell
-(add-hook 'haskell-mode-hook 'haskell-simple-indent-mode)
-(add-hook 'haskell-mode-hook 'haskell-doc-mode)
-
-;; Smart-mode-line
-(sml/setup)
-(sml/apply-theme 'respectful)
-
-;; Nyan
-(nyan-mode t)
 
 ;; Hack to blacklist a list of minor mode by regexp
 (setq rm-blacklist (mapconcat 'identity [" hl-p" " Guide" " Projectile"] "\\|"))
 
-;; Swiper
-(global-set-key "\C-s" 'swiper)
-(global-set-key "\C-r" 'swiper)
-(global-set-key (kbd "C-c C-r") 'ivy-resume)
-(global-set-key [f6] 'ivy-resume)
-
-;; Magit
-(global-magit-file-mode t)
-(add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls)
-
 ;; Color in compilation mode
-(defun colorize-compilation-buffer ()
-  (let ((inhibit-read-only t))
-    (ansi-color-apply-on-region (point-min) (point-max))))
-(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+ (defun colorize-compilation-buffer ()
+   (let ((inhibit-read-only t))
+     (ansi-color-apply-on-region (point-min) (point-max))))
+ (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
-;; Markdown
-(add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
-
-;; Company
-(add-hook 'after-init-hook 'global-company-mode)
-(setq company-tooltip-align-annotations t)
-
-;; Rust
-(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
-(add-hook 'rust-mode-hook 'cargo-minor-mode)
-(setq racer-rust-src-path "/usr/src/rust/src/")
-(add-hook 'rust-mode-hook #'racer-mode)
-(add-hook 'racer-mode-hook #'eldoc-mode)
-(add-hook 'racer-mode-hook #'company-mode)
+;; Cleanup before save
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (find-file "~/todo.org")
 (split-window-vertically)
 (multi-term)
+
