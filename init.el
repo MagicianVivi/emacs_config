@@ -1,4 +1,11 @@
 ;; Cask
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 (require 'cask "/usr/share/cask/cask.el")
 (cask-initialize)
 
@@ -13,6 +20,7 @@
  '(ansi-color-names-vector
 	 ["#262626" "#d70000" "#5f8700" "#af8700" "#0087ff" "#af005f" "#00afaf" "#626262"])
  '(column-number-mode t)
+ '(compilation-always-kill t)
  '(compilation-scroll-output t)
  '(cursor-color nil)
  '(custom-safe-themes
@@ -45,6 +53,14 @@
  '(nyan-animate-nyancat t)
  '(nyan-wavy-trail t)
  '(org-export-backends (quote (ascii beamer html icalendar latex md)))
+ '(org-log-done (quote time))
+ '(org-todo-keyword-faces
+	 (quote
+		(("IN PROGRESS" . "#cb4b16")
+		 ("TO MERGE/DEPLOY" . "#b58900"))))
+ '(org-todo-keywords
+	 (quote
+		((sequence "TODO" "IN PROGRESS" "TO MERGE/DEPLOY" "|" "DONE"))))
  '(projectile-globally-ignored-directories
 	 (quote
 		(".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".ensime_cache")))
@@ -85,7 +101,9 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 110 :width normal))))
  '(compilation-error ((t (:inherit warning))))
+ '(compilation-mode-line-fail ((t (:inherit compilation-error :foreground "Red1" :weight bold))))
  '(fringe ((t nil)))
+ '(org-todo ((t (:background "#002b36" :foreground "#dc322f" :weight bold))))
  '(rainbow-delimiters-depth-1-face ((t (:foreground "base3"))))
  '(rainbow-delimiters-depth-2-face ((t (:foreground "blue"))))
  '(rainbow-delimiters-depth-3-face ((t (:foreground "cyan"))))
@@ -158,10 +176,27 @@
 (global-magit-file-mode t)
 (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls)
 
-;; Jenkins
-(require 'butler)
-(add-to-list 'butler-server-list
-             '(jenkins "Teads"
-                       (server-address . "https://jenkins.teads.net")
-                       (server-user . "darthabel")
-                       (server-password . "43934f5a0b7c57762cf8cd4031884450")))
+;; Color in compilation mode
+(defun colorize-compilation-buffer ()
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region (point-min) (point-max))))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
+;; Markdown
+(add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+
+;; Company
+(add-hook 'after-init-hook 'global-company-mode)
+(setq company-tooltip-align-annotations t)
+
+;; Rust
+(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
+(add-hook 'rust-mode-hook 'cargo-minor-mode)
+(setq racer-rust-src-path "/usr/src/rust/src/")
+(add-hook 'rust-mode-hook #'racer-mode)
+(add-hook 'racer-mode-hook #'eldoc-mode)
+(add-hook 'racer-mode-hook #'company-mode)
+
+(find-file "~/todo.org")
+(split-window-vertically)
+(multi-term)

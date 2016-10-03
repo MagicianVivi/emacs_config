@@ -1,6 +1,6 @@
 (source gnu)
 (source melpa)
-(source marmalade)
+;;(source marmalade)
 
 ;; Theme
 (depends-on "color-theme-solarized")
@@ -32,11 +32,22 @@
 ;; Magit
 (depends-on "magit")
 (depends-on "magit-gh-pulls")
+;; Company
+(depends-on "company")
 ;; Scala
-(depends-on "scala-mode2")
+(depends-on "scala-mode")
 ;; Haskell
 (depends-on "haskell-mode")
 ;; Idris
 (depends-on "idris-mode")
-;; Jenkins
-(depends-on "butler")
+;; Markdown
+(depends-on "markdown-mode")
+;; Groovy
+(depends-on "groovy-mode")
+;; Cassandra
+(depends-on "cql-mode")
+;; Rust
+(depends-on "rust-mode")
+(depends-on "flycheck-rust")
+(depends-on "racer")
+(depends-on "cargo")
