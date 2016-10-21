@@ -18,7 +18,7 @@
  '(cursor-color nil)
  '(custom-safe-themes
 	 (quote
-		("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "31a01668c84d03862a970c471edbd377b2430868eccf5e8a9aec6831f1a0908d" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "1297a022df4228b81bc0436230f211bad168a117282c20ddcba2db8c6a200743" "3a727bdc09a7a141e58925258b6e873c65ccf393b2240c51553098ca93957723" "756597b162f1be60a12dbd52bab71d40d6a2845a3e3c2584c6573ee9c332a66e" "6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" "57072d797dc09fcf563051a85a29d6a51d6f2b1a602e029c35b05c30df319b2a" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
+		("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "31a01668c84d03862a970c471edbd377b2430868eccf5e8a9aec6831f1a0908d" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "1297a022df4228b81bc0436230f211bad168a117282c20ddcba2db8c6a200743" "3a727bdc09a7a141e58925258b6e873c65ccf393b2240c51553098ca93957723" "756597b162f1be60a12dbd52bab71d40d6a2845a3e3c2584c6573ee9c332a66e" "6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" "57072d797dc09fcf563051a85a29d6a51d6f2b1a602e029c35b05c30df319b2a" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
  '(dired-listing-switches "-alh")
  '(electric-indent-mode t)
  '(electric-pair-mode t)
@@ -27,15 +27,8 @@
 		(c/c++-clang c/c++-cppcheck coffee coffee-coffeelint css-csslint d-dmd elixir emacs-lisp emacs-lisp-checkdoc erlang go-gofmt go-build go-test haml haskell-ghc haskell-hlint html-tidy javascript-jshint javascript-gjslint json-jsonlint less lua perl php php-phpmd php-phpcs puppet-parser puppet-lint python-flake8 python-pylint rst ruby-rubocop ruby ruby-jruby rust sass scala scss sh-bash slim tex-chktex tex-lacheck xml-xmlstarlet xml-xmllint yaml-ruby)))
  '(foreground-color nil)
  '(frame-background-mode (quote dark))
- '(guide-key-mode t)
- '(guide-key/guide-key-sequence (quote ("C-x" "C-c")))
- '(guide-key/recursive-key-sequence-flag t)
- '(idris-interpreter-path "~/Idris/.cabal-sandbox/bin/idris")
  '(indent-tabs-mode t)
  '(inhibit-startup-screen t)
- '(ivy-count-format "(%d/%d) ")
- '(ivy-mode t)
- '(ivy-use-virtual-buffers t)
  '(js-indent-level 2)
  '(menu-bar-mode nil)
  '(ns-right-alternate-modifier (quote none))
@@ -50,7 +43,7 @@
 		((sequence "TODO" "IN PROGRESS" "TO MERGE/DEPLOY" "|" "DONE"))))
  '(package-selected-packages
 	 (quote
-		(ace-window use-package solarized-theme rainbow-delimiters projectile multiple-cursors flycheck fill-column-indicator color-theme-solarized avy)))
+		(cql-mode idris-mode groovy-mode scala-mode guide-key multi-term cargo racer flycheck-rust rust-mode company markdown-mode magit-gh-pulls magit swiper nyan-mode ace-window use-package solarized-theme rainbow-delimiters projectile multiple-cursors flycheck fill-column-indicator color-theme-solarized avy)))
  '(projectile-globally-ignored-directories
 	 (quote
 		(".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".ensime_cache")))
@@ -112,17 +105,22 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-(use-package solarized-theme
-  :ensure t)
+;; using old color theme for solarized because it's better than the new one
+(use-package color-theme
+	:ensure t)
+(use-package color-theme-solarized
+	:ensure t
+	:config
+	(load-theme 'solarized))
 
 (use-package rainbow-delimiters
   :ensure t
-  :init
+  :config
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 (use-package flycheck
   :ensure t
-  :init
+  :config
   (global-flycheck-mode))
 
 (use-package ag
@@ -130,9 +128,8 @@
 
 (use-package projectile
   :ensure t
-  :init
-  (projectile-global-mode)
   :config
+  (projectile-global-mode)
   (setq projectile-completion-system 'ivy))
 
 (use-package multiple-cursors
@@ -145,10 +142,9 @@
 
 (use-package fill-column-indicator
   :ensure t
-  :init
+  :config
   (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode t)))
   (global-fci-mode t)
-  :config
   (setq fill-column 79))
 
 (use-package avy
@@ -166,21 +162,20 @@
 
 (use-package haskell-mode
   :ensure t
-  :init
+  :config
  (add-hook 'haskell-mode-hook 'haskell-simple-indent-mode)
  (add-hook 'haskell-mode-hook 'haskell-doc-mode))
 
 (use-package smart-mode-line
   :ensure t
-  :init
-  (setq sml/theme 'respectful)
-  (sml/setup))
+	:config
+	(setq sml/theme 'respectful)
+	(sml/setup))
 
 (use-package nyan-mode
   :ensure t
-  :init
-  (nyan-mode t)
   :config
+  (nyan-mode t)
   (setq nyan-animate-nyancat t)
   (setq nyan-wavy-trail t))
 
@@ -189,28 +184,31 @@
   :bind
   (("\C-s" . swiper)
    ("\C-r" . swiper)
-   ("C-c C-r" . ivy-resume)))
+   ("C-c C-r" . ivy-resume))
+	:init
+	(ivy-mode t)
+	(setq ivy-count-format "(%d/%d) ")
+	(setq ivy-use-virtual-buffers t))
 
 (use-package magit
   :ensure t
-  :init
+  :config
   (global-magit-file-mode t))
 
 (use-package magit-gh-pulls
   :ensure t
-  :init
+  :config
   (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls))
 
 (use-package markdown-mode
   :ensure t
-  :init
+  :config
   (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode)))
 
 (use-package company
   :ensure t
-  :init
-  (add-hook 'after-init-hook 'global-company-mode)
   :config
+  (add-hook 'after-init-hook 'global-company-mode)
   (setq company-tooltip-align-annotations t))
 
 (use-package rust-mode
@@ -218,28 +216,32 @@
 
 (use-package flycheck-rust
   :ensure t
-  :init
+  :config
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
 (use-package racer
   :ensure t
-  :init
+  :config
   (add-hook 'rust-mode-hook #'racer-mode)
   (add-hook 'racer-mode-hook #'eldoc-mode)
   (add-hook 'racer-mode-hook #'company-mode)
-  :config
   (setq racer-rust-src-path "/usr/src/rust/src/"))
 
 (use-package cargo
   :ensure t
-  :init
+  :config
   (add-hook 'rust-mode-hook 'cargo-minor-mode))
 
 (use-package multi-term
   :ensure t)
 
 (use-package guide-key
-  :ensure t)
+  :ensure t
+	:config
+	(guide-key-mode t)
+  (setq guide-key/guide-key-sequence (quote ("C-x" "C-c")))
+  (setq guide-key/recursive-key-sequence-flag t)
+)
 
 (use-package scala-mode
   :ensure t)
@@ -248,7 +250,9 @@
   :ensure t)
 
 (use-package idris-mode
-  :ensure t)
+  :ensure t
+	:config
+	(setq idris-interpreter-path "~/Idris/.cabal-sandbox/bin/idris"))
 
 (use-package cql-mode
   :ensure t)
@@ -270,4 +274,3 @@
 (find-file "~/todo.org")
 (split-window-vertically)
 (multi-term)
-
