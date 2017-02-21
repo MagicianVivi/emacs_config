@@ -43,7 +43,7 @@
 		((sequence "TODO" "IN PROGRESS" "TO MERGE/DEPLOY" "|" "DONE"))))
  '(package-selected-packages
 	 (quote
-		(elm-mode cql-mode idris-mode groovy-mode scala-mode guide-key multi-term cargo racer flycheck-rust rust-mode company markdown-mode magit-gh-pulls magit swiper nyan-mode ace-window use-package solarized-theme rainbow-delimiters projectile multiple-cursors flycheck fill-column-indicator color-theme-solarized avy)))
+		(flycheck-elm elm-mode cql-mode idris-mode groovy-mode scala-mode guide-key multi-term cargo racer flycheck-rust rust-mode company markdown-mode magit-gh-pulls magit swiper nyan-mode ace-window use-package solarized-theme rainbow-delimiters projectile multiple-cursors flycheck fill-column-indicator color-theme-solarized avy)))
  '(projectile-globally-ignored-directories
 	 (quote
 		(".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".ensime_cache")))
@@ -260,8 +260,12 @@
 (use-package elm-mode
 	:ensure t
 	:config
-	(add-hook 'elm-mode-hook #'elm-oracle-setup-completion)
 	(add-to-list 'company-backends 'company-elm))
+
+(use-package flycheck-elm
+  :ensure t
+  :config
+  (add-hook 'flycheck-mode-hook #'flycheck-elm-setup))
 
 (require 'uniquify)
 
