@@ -43,7 +43,7 @@
 		((sequence "TODO" "IN PROGRESS" "TO MERGE/DEPLOY" "|" "DONE"))))
  '(package-selected-packages
 	 (quote
-		(flycheck-elm elm-mode cql-mode idris-mode groovy-mode scala-mode guide-key multi-term cargo racer flycheck-rust rust-mode company markdown-mode magit-gh-pulls magit swiper nyan-mode ace-window use-package solarized-theme rainbow-delimiters projectile multiple-cursors flycheck fill-column-indicator color-theme-solarized avy)))
+		(counsel-projectile flycheck-elm elm-mode cql-mode idris-mode groovy-mode scala-mode guide-key multi-term cargo racer flycheck-rust rust-mode company markdown-mode magit-gh-pulls magit swiper nyan-mode ace-window use-package solarized-theme rainbow-delimiters projectile multiple-cursors flycheck fill-column-indicator color-theme-solarized avy)))
  '(projectile-globally-ignored-directories
 	 (quote
 		(".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".ensime_cache")))
@@ -190,10 +190,21 @@
 	(setq ivy-count-format "(%d/%d) ")
 	(setq ivy-use-virtual-buffers t))
 
+(use-package counsel
+	:ensure t
+	:bind
+	("M-x" . counsel-M-x))
+
+(use-package counsel-projectile
+	:ensure t
+	:config
+	(counsel-projectile-on))
+
 (use-package magit
   :ensure t
   :config
-  (global-magit-file-mode t))
+  (global-magit-file-mode t)
+	(setq magit-completing-read-function 'ivy-completing-read))
 
 (use-package magit-gh-pulls
   :ensure t
