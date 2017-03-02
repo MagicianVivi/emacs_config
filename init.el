@@ -43,7 +43,7 @@
 		((sequence "TODO" "IN PROGRESS" "TO MERGE/DEPLOY" "|" "DONE"))))
  '(package-selected-packages
 	 (quote
-		(counsel-projectile flycheck-elm elm-mode cql-mode idris-mode groovy-mode scala-mode guide-key multi-term cargo racer flycheck-rust rust-mode company markdown-mode magit-gh-pulls magit swiper nyan-mode ace-window use-package solarized-theme rainbow-delimiters projectile multiple-cursors flycheck fill-column-indicator color-theme-solarized avy)))
+		(counsel counsel-projectile flycheck-elm elm-mode cql-mode idris-mode groovy-mode scala-mode guide-key multi-term cargo racer flycheck-rust rust-mode company markdown-mode magit-gh-pulls magit swiper nyan-mode ace-window use-package solarized-theme rainbow-delimiters projectile multiple-cursors flycheck fill-column-indicator color-theme-solarized avy)))
  '(projectile-globally-ignored-directories
 	 (quote
 		(".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".ensime_cache")))
@@ -193,7 +193,8 @@
 (use-package counsel
 	:ensure t
 	:bind
-	("M-x" . counsel-M-x))
+	(("M-x" . counsel-M-x)
+	("M-y" . counsel-yank-pop)))
 
 (use-package counsel-projectile
 	:ensure t
