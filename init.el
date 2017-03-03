@@ -108,6 +108,7 @@
 ;; using old color theme for solarized because it's better than the new one
 (use-package color-theme
 	:ensure t)
+
 (use-package color-theme-solarized
 	:ensure t
 	:config
@@ -254,8 +255,7 @@
 	:config
 	(guide-key-mode t)
   (setq guide-key/guide-key-sequence (quote ("C-x" "C-c")))
-  (setq guide-key/recursive-key-sequence-flag t)
-)
+  (setq guide-key/recursive-key-sequence-flag t))
 
 (use-package scala-mode
   :ensure t)
@@ -284,13 +284,13 @@
 (require 'uniquify)
 
 ;; Hack to blacklist a list of minor mode by regexp
-(setq rm-blacklist (mapconcat 'identity [" hl-p" " Guide" " Projectile"] "\\|"))
+(setq rm-blacklist (mapconcat 'identity [" hl-p" " Guide" " Projectile" "ivy" "company"] "\\|"))
 
 ;; Color in compilation mode
- (defun colorize-compilation-buffer ()
-   (let ((inhibit-read-only t))
-     (ansi-color-apply-on-region (point-min) (point-max))))
- (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+(defun colorize-compilation-buffer ()
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region (point-min) (point-max))))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 ;; Cleanup before save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
