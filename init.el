@@ -151,7 +151,9 @@
   :ensure t
   :bind
   (("C-:" . avy-goto-char)
-   ("C-c SPC" . avy-goto-word-1)))
+   ("C-c SPC" . avy-goto-word-1))
+	:config
+	(setq avy-keys '(?a ?u ?i ?e ?t ?s ?r ?n)))
 
 (use-package ace-window
   :ensure t
