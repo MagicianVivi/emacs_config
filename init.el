@@ -292,8 +292,12 @@
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 ;; Cleanup before save
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-(add-hook 'before-save-hook 'untabify)
+(defun my-save-hook ()
+	"Untabify and delete trailing."
+	(untabify (point-min) (point-max))
+	(delete-trailing-whitespace))
+
+(add-hook 'before-save-hook 'my-save-hook)
 
 (find-file "~/todo.org")
 (put 'downcase-region 'disabled nil)
