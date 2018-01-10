@@ -31,10 +31,13 @@
  '(flycheck-checkers
    (quote
     (elm idris c/c++-clang c/c++-cppcheck coffee coffee-coffeelint css-csslint d-dmd elixir emacs-lisp emacs-lisp-checkdoc erlang go-gofmt go-build go-test haml haskell-ghc haskell-hlint html-tidy javascript-jshint javascript-gjslint json-jsonlint less lua perl php php-phpmd php-phpcs puppet-parser puppet-lint python-flake8 python-pylint rst ruby-rubocop ruby rust-cargo rust ruby-jruby sass scala scss sh-bash slim tex-chktex tex-lacheck xml-xmlstarlet xml-xmllint yaml-ruby)))
+ '(flycheck-haskell-hlint-executable "/home/magicianvivi/.local/bin/hlint")
  '(font-use-system-font t)
  '(foreground-color nil)
  '(frame-background-mode (quote dark))
- '(indent-tabs-mode t)
+ '(hindent-process-path "~/.local/bin/hindent")
+ '(hindent-reformat-buffer-on-save t)
+ '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(js-indent-level 2)
  '(menu-bar-mode nil)
@@ -50,11 +53,14 @@
     ((sequence "TODO" "IN PROGRESS" "TO MERGE/DEPLOY" "|" "DONE"))))
  '(package-selected-packages
    (quote
-    (cargo racer flycheck-rust rust-mode rainbow-identifiers zerodark-theme material-theme solaire-mode doom-themes yaml-mode terraform-mode counsel counsel-projectile flycheck-elm elm-mode cql-mode idris-mode groovy-mode scala-mode guide-key company markdown-mode magit-gh-pulls magit swiper nyan-mode ace-window use-package solarized-theme rainbow-delimiters projectile multiple-cursors flycheck fill-column-indicator color-theme-solarized avy)))
+    (hindent intero-mode intero alchemist cargo racer flycheck-rust rust-mode rainbow-identifiers zerodark-theme material-theme solaire-mode doom-themes yaml-mode terraform-mode counsel counsel-projectile flycheck-elm elm-mode cql-mode idris-mode groovy-mode scala-mode guide-key company markdown-mode magit-gh-pulls magit swiper nyan-mode ace-window use-package solarized-theme rainbow-delimiters projectile multiple-cursors flycheck fill-column-indicator color-theme-solarized avy)))
  '(projectile-globally-ignored-directories
    (quote
     (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".ensime_cache")))
  '(python-indent-offset 2)
+ '(safe-local-variable-values
+   (quote
+    ((intero-targets "intero-demo:lib" "intero-demo:test:intero-demo-test"))))
  '(scroll-bar-mode nil)
  '(tab-width 2)
  '(term-bind-key-alist
@@ -157,11 +163,21 @@
   :config
   (setq aw-keys '(?a ?u ?i ?e ?t ?s ?r ?n)))
 
+(use-package intero-mode
+  :ensure t)
+
+(use-package hindent
+  :ensure t)
+
+(require 'intero)
+
 (use-package haskell-mode
   :ensure t
   :config
- (add-hook 'haskell-mode-hook 'haskell-simple-indent-mode)
- (add-hook 'haskell-mode-hook 'haskell-doc-mode))
+  (add-hook 'haskell-mode-hook 'intero-mode)
+  (add-hook 'haskell-mode-hook 'hindent-mode)
+  (with-eval-after-load 'intero
+    (flycheck-add-next-checker 'intero '(warning . haskell-hlint))))
 
 ;; (use-package smart-mode-line
 ;;   :ensure t
@@ -249,18 +265,14 @@
   (setq guide-key/recursive-key-sequence-flag t))
 
 (use-package scala-mode
-  :ensure t)
-
-(use-package groovy-mode
-  :ensure t)
+  :ensure t
+  :interpreter
+  ("scala" . scala-mode))
 
 (use-package idris-mode
   :ensure t
   :config
   (setq idris-interpreter-path "idris"))
-
-(use-package cql-mode
-  :ensure t)
 
 (use-package elm-mode
   :ensure t
@@ -292,16 +304,16 @@
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 ;; Untabify on js files
-(add-hook 'js-mode-hook '(lambda ()
-  (add-hook 'before-save-hook (lambda ()
-    (untabify (point-min) (point-max))))))
+;; (add-hook 'js-mode-hook '(lambda ()
+;;   (add-hook 'before-save-hook (lambda ()
+;;     (untabify (point-min) (point-max))))))
 
 ;; Cleanup before save
 (defun my-save-hook ()
   "Untabify and delete trailing."
   (delete-trailing-whitespace))
 
-(add-hook 'before-save-hook 'my-save-hook)
+(add-hook 'before-save-hook 'whitespace-cleanup)
 
 (find-file "~/todo.org")
 (put 'downcase-region 'disabled nil)
