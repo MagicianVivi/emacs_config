@@ -11,6 +11,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(async-shell-command-buffer (quote new-buffer))
+ '(auth-source-cache-expiry nil)
+ '(auth-source-do-cache nil)
+ '(auth-sources nil)
  '(column-number-mode t)
  '(compilation-always-kill t)
  '(compilation-scroll-output t)
@@ -31,12 +34,9 @@
  '(flycheck-checkers
    (quote
     (elm idris c/c++-clang c/c++-cppcheck coffee coffee-coffeelint css-csslint d-dmd elixir emacs-lisp emacs-lisp-checkdoc erlang go-gofmt go-build go-test haml haskell-ghc haskell-hlint html-tidy javascript-jshint javascript-gjslint json-jsonlint less lua perl php php-phpmd php-phpcs puppet-parser puppet-lint python-flake8 python-pylint rst ruby-rubocop ruby rust-cargo rust ruby-jruby sass scala scss sh-bash slim tex-chktex tex-lacheck xml-xmlstarlet xml-xmllint yaml-ruby)))
- '(flycheck-haskell-hlint-executable "/home/magicianvivi/.local/bin/hlint")
  '(font-use-system-font t)
  '(foreground-color nil)
  '(frame-background-mode (quote dark))
- '(hindent-process-path "~/.local/bin/hindent")
- '(hindent-reformat-buffer-on-save t)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(js-indent-level 2)
@@ -53,15 +53,16 @@
     ((sequence "TODO" "IN PROGRESS" "TO MERGE/DEPLOY" "|" "DONE"))))
  '(package-selected-packages
    (quote
-    (hindent intero-mode intero alchemist cargo racer flycheck-rust rust-mode rainbow-identifiers zerodark-theme material-theme solaire-mode doom-themes yaml-mode terraform-mode counsel counsel-projectile flycheck-elm elm-mode cql-mode idris-mode groovy-mode scala-mode guide-key company markdown-mode magit-gh-pulls magit swiper nyan-mode ace-window use-package solarized-theme rainbow-delimiters projectile multiple-cursors flycheck fill-column-indicator color-theme-solarized avy)))
+    (magit ag alchemist cargo racer flycheck-rust rust-mode rainbow-identifiers zerodark-theme material-theme solaire-mode doom-themes yaml-mode terraform-mode counsel counsel-projectile flycheck-elm elm-mode cql-mode idris-mode groovy-mode scala-mode guide-key company markdown-mode swiper nyan-mode ace-window use-package solarized-theme rainbow-delimiters projectile multiple-cursors flycheck fill-column-indicator color-theme-solarized avy)))
  '(projectile-globally-ignored-directories
    (quote
     (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".ensime_cache")))
- '(python-indent-offset 2)
+ '(python-indent-offset 4)
  '(safe-local-variable-values
    (quote
     ((intero-targets "intero-demo:lib" "intero-demo:test:intero-demo-test"))))
  '(scroll-bar-mode nil)
+ '(show-trailing-whitespace t)
  '(tab-width 2)
  '(term-bind-key-alist
    (quote
@@ -129,6 +130,8 @@
 
 (use-package projectile
   :ensure t
+  :bind
+  ("C-c p" . projectile-command-map)
   :config
   (projectile-mode)
   (setq projectile-completion-system 'ivy))
@@ -163,35 +166,6 @@
   :config
   (setq aw-keys '(?a ?u ?i ?e ?t ?s ?r ?n)))
 
-(use-package intero-mode
-  :ensure t)
-
-(use-package hindent
-  :ensure t)
-
-(require 'intero)
-
-(use-package haskell-mode
-  :ensure t
-  :config
-  (add-hook 'haskell-mode-hook 'intero-mode)
-  (add-hook 'haskell-mode-hook 'hindent-mode)
-  (with-eval-after-load 'intero
-    (flycheck-add-next-checker 'intero '(warning . haskell-hlint))))
-
-;; (use-package smart-mode-line
-;;   :ensure t
-;;  :config
-;;  (setq sml/theme 'respectful)
-;;  (sml/setup))
-
-;; (use-package nyan-mode
-;;   :ensure t
-;;   :config
-;;   (nyan-mode t)
-;;   (setq nyan-animate-nyancat t)
-;;   (setq nyan-wavy-trail t))
-
 (use-package swiper
   :ensure t
   :bind
@@ -212,7 +186,7 @@
 (use-package counsel-projectile
   :ensure t
   :config
-  (counsel-projectile-on))
+  (counsel-projectile-mode))
 
 (use-package magit
   :ensure t
@@ -220,10 +194,11 @@
   (global-magit-file-mode t)
   (setq magit-completing-read-function 'ivy-completing-read))
 
-(use-package magit-gh-pulls
-  :ensure t
-  :config
-  (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls))
+;; (use-package magithub
+;;   :after magit
+;;   :config
+;;   (magithub-feature-autoinject t)
+;;   (setq magithub-clone-default-directory "~/Projects"))
 
 (use-package markdown-mode
   :ensure t
@@ -297,17 +272,6 @@
 ;; Hack to blacklist a list of minor mode by regexp
 (setq rm-blacklist (mapconcat 'identity [" hl-p" " Guide" " Projectile" "ivy" "company"] "\\|"))
 
-;; Color in compilation mode
-(defun colorize-compilation-buffer ()
-  (let ((inhibit-read-only t))
-    (ansi-color-apply-on-region (point-min) (point-max))))
-(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
-
-;; Untabify on js files
-;; (add-hook 'js-mode-hook '(lambda ()
-;;   (add-hook 'before-save-hook (lambda ()
-;;     (untabify (point-min) (point-max))))))
-
 ;; Cleanup before save
 (defun my-save-hook ()
   "Untabify and delete trailing."
@@ -315,5 +279,5 @@
 
 (add-hook 'before-save-hook 'whitespace-cleanup)
 
-(find-file "~/todo.org")
 (put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
