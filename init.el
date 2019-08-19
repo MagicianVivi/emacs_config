@@ -1,3 +1,6 @@
+;; Fix around broken tls version
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives
@@ -53,7 +56,7 @@
     ((sequence "TODO" "IN PROGRESS" "TO MERGE/DEPLOY" "|" "DONE"))))
  '(package-selected-packages
    (quote
-    (magit ag alchemist cargo racer flycheck-rust rust-mode rainbow-identifiers zerodark-theme material-theme solaire-mode doom-themes yaml-mode terraform-mode counsel counsel-projectile flycheck-elm elm-mode cql-mode idris-mode groovy-mode scala-mode guide-key company markdown-mode swiper nyan-mode ace-window use-package solarized-theme rainbow-delimiters projectile multiple-cursors flycheck fill-column-indicator color-theme-solarized avy)))
+    (lsp-ui lsp-mode company-lsp typescript-mode magit ag alchemist cargo racer flycheck-rust rust-mode rainbow-identifiers zerodark-theme material-theme solaire-mode doom-themes yaml-mode terraform-mode counsel counsel-projectile flycheck-elm elm-mode cql-mode idris-mode groovy-mode scala-mode guide-key company markdown-mode swiper nyan-mode ace-window use-package solarized-theme rainbow-delimiters projectile multiple-cursors flycheck fill-column-indicator color-theme-solarized avy)))
  '(projectile-globally-ignored-directories
    (quote
     (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".ensime_cache")))
@@ -104,6 +107,8 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
+
+(require 'use-package)
 
 (use-package zerodark-theme
   :ensure t
@@ -194,12 +199,6 @@
   (global-magit-file-mode t)
   (setq magit-completing-read-function 'ivy-completing-read))
 
-;; (use-package magithub
-;;   :after magit
-;;   :config
-;;   (magithub-feature-autoinject t)
-;;   (setq magithub-clone-default-directory "~/Projects"))
-
 (use-package markdown-mode
   :ensure t
   :config
@@ -239,10 +238,34 @@
   (setq guide-key/guide-key-sequence (quote ("C-x" "C-c")))
   (setq guide-key/recursive-key-sequence-flag t))
 
+;; Enable scala-mode and sbt-mode
 (use-package scala-mode
   :ensure t
-  :interpreter
-  ("scala" . scala-mode))
+  :mode "\\.s\\(cala\\|bt\\)$")
+
+(use-package sbt-mode
+  :ensure t
+  :commands sbt-start sbt-command
+  :config
+  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+  ;; allows using SPACE when in the minibuffer
+  (substitute-key-definition
+   'minibuffer-complete-word
+   'self-insert-command
+   minibuffer-local-completion-map))
+
+(use-package lsp-mode
+  :ensure t
+  ;; Optional - enable lsp-mode automatically in scala files
+  :hook (scala-mode . lsp)
+  :config (setq lsp-prefer-flymake nil))
+
+(use-package lsp-ui
+  :ensure t)
+
+;; Add company-lsp backend for metals
+(use-package company-lsp
+  :ensure t)
 
 (use-package idris-mode
   :ensure t
@@ -272,12 +295,8 @@
 ;; Hack to blacklist a list of minor mode by regexp
 (setq rm-blacklist (mapconcat 'identity [" hl-p" " Guide" " Projectile" "ivy" "company"] "\\|"))
 
-;; Cleanup before save
-(defun my-save-hook ()
-  "Untabify and delete trailing."
-  (delete-trailing-whitespace))
-
 (add-hook 'before-save-hook 'whitespace-cleanup)
+(add-hook 'before-save-hook 'lsp-format-buffer)
 
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
