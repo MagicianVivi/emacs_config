@@ -35,7 +35,7 @@
  '(frame-background-mode 'dark)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
- '(js-indent-level 2)
+ '(js-indent-level 4)
  '(menu-bar-mode nil)
  '(ns-right-alternate-modifier 'none)
  '(org-export-backends '(ascii beamer html icalendar latex md))
@@ -46,7 +46,7 @@
  '(org-todo-keywords
    '((sequence "TODO" "IN PROGRESS" "TO MERGE/DEPLOY" "|" "DONE")))
  '(package-selected-packages
-   '(yaml-mode sbt-mode scala-mode racer rainbow-delimiters lsp-ui lsp-mode company-lsp typescript-mode magit ag alchemist cargo flycheck-rust rainbow-identifiers material-theme doom-themes terraform-mode counsel counsel-projectile flycheck-elm elm-mode cql-mode idris-mode groovy-mode guide-key company markdown-mode nyan-mode ace-window multiple-cursors flycheck fill-column-indicator color-theme-solarized avy))
+   '(yasnippet lsp-metals rust-mode swiper projectile zerodark-theme use-package yaml-mode sbt-mode scala-mode racer rainbow-delimiters lsp-ui lsp-mode company-lsp typescript-mode magit ag alchemist cargo flycheck-rust rainbow-identifiers material-theme doom-themes terraform-mode counsel counsel-projectile flycheck-elm elm-mode cql-mode idris-mode groovy-mode guide-key company markdown-mode nyan-mode ace-window multiple-cursors flycheck fill-column-indicator color-theme-solarized avy))
  '(projectile-globally-ignored-directories
    '(".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".ensime_cache"))
  '(python-indent-offset 4)
@@ -80,6 +80,7 @@
    '("C-z" "C-x" "C-c" "C-h" "C-y" "<ESC>" "<f10>" "<f5>" "<f1>" "<f10>"))
  '(tool-bar-mode nil)
  '(tramp-default-method "ssh")
+ '(typescript-indent-level 2)
  '(uniquify-buffer-name-style 'forward nil (uniquify)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -96,6 +97,9 @@
   (package-install 'use-package))
 
 (require 'use-package)
+
+(setq backup-directory-alist `((".*" . ,temporary-file-directory))
+      auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
 (use-package zerodark-theme
   :ensure t
@@ -115,7 +119,7 @@
 
 (use-package flycheck
   :ensure t
-  :config
+  :init
   (global-flycheck-mode))
 
 (use-package ag
@@ -184,7 +188,6 @@
 (use-package magit
   :ensure t
   :config
-  (global-magit-file-mode t)
   (setq magit-completing-read-function 'ivy-completing-read))
 
 (use-package markdown-mode
@@ -229,32 +232,34 @@
 ;; Enable scala-mode and sbt-mode
 (use-package scala-mode
   :ensure t
-  :mode "\\.s\\(cala\\|bt\\)$")
-
-(use-package sbt-mode
-  :ensure t
-  :commands sbt-start sbt-command
-  :config
-  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-  ;; allows using SPACE when in the minibuffer
-  (substitute-key-definition
-   'minibuffer-complete-word
-   'self-insert-command
-   minibuffer-local-completion-map))
+  :interpreter ("scala" . scala-mode))
 
 (use-package lsp-mode
   :ensure t
-  ;; Optional - enable lsp-mode automatically in scala files
-  :hook (scala-mode . lsp)
-  :hook (elm-mode . lsp)
   :config (setq lsp-prefer-flymake nil))
 
+(use-package lsp-ui
+  :ensure t)
+
+;; Enable nice rendering of documentation on hover
 (use-package lsp-ui
   :ensure t)
 
 ;; Add company-lsp backend for metals
 (use-package company-lsp
   :ensure t)
+
+;; Use the Debug Adapter Protocol for running tests and debugging
+(use-package posframe
+  :ensure t
+  ;; Posframe is a pop-up tool that must be manually installed for dap-mode
+  )
+(use-package dap-mode
+  :ensure t
+  :hook
+  (lsp-mode . dap-mode)
+  (lsp-mode . dap-ui-mode)
+  )
 
 (use-package elm-mode
   :ensure t
