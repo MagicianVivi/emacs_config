@@ -46,7 +46,7 @@
  '(org-todo-keywords
    '((sequence "TODO" "IN PROGRESS" "TO MERGE/DEPLOY" "|" "DONE")))
  '(package-selected-packages
-   '(yasnippet lsp-metals rust-mode swiper projectile zerodark-theme use-package yaml-mode sbt-mode scala-mode racer rainbow-delimiters lsp-ui lsp-mode company-lsp typescript-mode magit ag alchemist cargo flycheck-rust rainbow-identifiers material-theme doom-themes terraform-mode counsel counsel-projectile flycheck-elm elm-mode cql-mode idris-mode groovy-mode guide-key company markdown-mode nyan-mode ace-window multiple-cursors flycheck fill-column-indicator color-theme-solarized avy))
+   '(iedit xref ivy-xref dumb-jump yasnippet lsp-metals rust-mode swiper projectile zerodark-theme use-package yaml-mode sbt-mode scala-mode racer rainbow-delimiters lsp-ui lsp-mode company-lsp typescript-mode magit ag alchemist cargo flycheck-rust rainbow-identifiers material-theme doom-themes terraform-mode counsel counsel-projectile flycheck-elm elm-mode cql-mode idris-mode groovy-mode guide-key company markdown-mode nyan-mode ace-window multiple-cursors flycheck fill-column-indicator color-theme-solarized avy))
  '(projectile-globally-ignored-directories
    '(".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".ensime_cache"))
  '(python-indent-offset 4)
@@ -132,14 +132,6 @@
   :config
   (projectile-mode)
   (setq projectile-completion-system 'ivy))
-
-(use-package multiple-cursors
-  :ensure t
-  :bind
-  (("C-S-c C-S-c" . mc/edit-lines)
-   ("C->" . mc/mark-next-like-this)
-   ("C-<" . mc/mark-previous-like-this)
-   ("C-c C-<" . mc/mark-all-like-this)))
 
 (use-package fill-column-indicator
   :ensure t
@@ -238,9 +230,6 @@
   :ensure t
   :config (setq lsp-prefer-flymake nil))
 
-(use-package lsp-ui
-  :ensure t)
-
 ;; Enable nice rendering of documentation on hover
 (use-package lsp-ui
   :ensure t)
@@ -254,6 +243,7 @@
   :ensure t
   ;; Posframe is a pop-up tool that must be manually installed for dap-mode
   )
+
 (use-package dap-mode
   :ensure t
   :hook
@@ -278,6 +268,9 @@
   :ensure t
   :config
   (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
+
+(use-package iedit
+  :ensure t)
 
 (require 'uniquify)
 
