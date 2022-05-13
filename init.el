@@ -46,7 +46,7 @@
  '(org-todo-keywords
    '((sequence "TODO" "IN PROGRESS" "TO MERGE/DEPLOY" "|" "DONE")))
  '(package-selected-packages
-   '(iedit xref ivy-xref dumb-jump yasnippet lsp-metals rust-mode swiper projectile zerodark-theme use-package yaml-mode sbt-mode scala-mode racer rainbow-delimiters lsp-ui lsp-mode company-lsp typescript-mode magit ag alchemist cargo flycheck-rust rainbow-identifiers material-theme doom-themes terraform-mode counsel counsel-projectile flycheck-elm elm-mode cql-mode idris-mode groovy-mode guide-key company markdown-mode nyan-mode ace-window multiple-cursors flycheck fill-column-indicator color-theme-solarized avy))
+   '(which-key dap-mode lsp-java treemacs-projectile treemacs iedit xref ivy-xref dumb-jump yasnippet lsp-metals rust-mode swiper projectile zerodark-theme use-package yaml-mode sbt-mode scala-mode racer rainbow-delimiters lsp-ui lsp-mode company-lsp typescript-mode magit ag alchemist cargo flycheck-rust rainbow-identifiers material-theme doom-themes terraform-mode counsel counsel-projectile flycheck-elm elm-mode cql-mode idris-mode groovy-mode guide-key company markdown-mode nyan-mode ace-window multiple-cursors flycheck fill-column-indicator color-theme-solarized avy))
  '(projectile-globally-ignored-directories
    '(".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".ensime_cache"))
  '(python-indent-offset 4)
@@ -214,12 +214,10 @@
   :config
   (add-hook 'rust-mode-hook 'cargo-minor-mode))
 
-(use-package guide-key
+(use-package which-key
   :ensure t
   :config
-  (guide-key-mode t)
-  (setq guide-key/guide-key-sequence (quote ("C-x" "C-c")))
-  (setq guide-key/recursive-key-sequence-flag t))
+  (which-key-mode))
 
 ;; Enable scala-mode and sbt-mode
 (use-package scala-mode
@@ -250,6 +248,16 @@
   (lsp-mode . dap-mode)
   (lsp-mode . dap-ui-mode)
   )
+
+(use-package lsp-java
+  :config
+  (add-hook 'java-mode-hook 'lsp))
+
+(use-package dap-java
+  :ensure nil)
+
+(use-package lsp-treemacs
+  :ensure t)
 
 (use-package elm-mode
   :ensure t
