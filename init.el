@@ -300,13 +300,6 @@
          ("C-x C-d" . consult-dir)
          ("C-x C-j" . consult-dir-jump-file)))
 
-(use-package fill-column-indicator
-  :ensure t
-  :config
-  (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode t)))
-  (global-fci-mode t)
-  (setq fill-column 79))
-
 (use-package avy
   :ensure t
   :bind
