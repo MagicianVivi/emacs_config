@@ -362,9 +362,7 @@
   (setq aw-keys '(?a ?u ?i ?e ?t ?s ?r ?n)))
 
 (use-package magit
-  :ensure t
-  :config
-  (setq magit-completing-read-function 'ivy-completing-read))
+  :ensure t)
 
 (use-package forge
   :ensure t
