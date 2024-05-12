@@ -50,7 +50,7 @@
  '(org-todo-keywords
    '((sequence "TODO" "IN PROGRESS" "TO MERGE/DEPLOY" "|" "DONE")))
  '(package-selected-packages
-   '(eglot sqlite3 docker exec-path-from-shell mermaid-mode multi-term gitmoji google-c-style flycheck-kotlin kotlin-mode flycheck-gradle gradle-mode forge posframe which-key dap-mode lsp-java treemacs-projectile treemacs iedit xref ivy-xref dumb-jump yasnippet lsp-metals rust-mode swiper projectile zerodark-theme use-package yaml-mode sbt-mode scala-mode racer rainbow-delimiters lsp-ui lsp-mode company-lsp typescript-mode magit ag alchemist cargo flycheck-rust rainbow-identifiers material-theme doom-themes terraform-mode counsel counsel-projectile flycheck-elm elm-mode cql-mode idris-mode groovy-mode guide-key company markdown-mode nyan-mode ace-window multiple-cursors flycheck fill-column-indicator color-theme-solarized avy))
+   '(all-the-icons-completion marginalia eglot sqlite3 docker exec-path-from-shell mermaid-mode multi-term gitmoji google-c-style flycheck-kotlin kotlin-mode flycheck-gradle gradle-mode forge posframe which-key dap-mode lsp-java treemacs-projectile treemacs iedit xref ivy-xref dumb-jump yasnippet lsp-metals rust-mode swiper projectile zerodark-theme use-package yaml-mode sbt-mode scala-mode racer rainbow-delimiters lsp-ui lsp-mode company-lsp typescript-mode magit ag alchemist cargo flycheck-rust rainbow-identifiers material-theme doom-themes terraform-mode counsel counsel-projectile flycheck-elm elm-mode cql-mode idris-mode groovy-mode guide-key company markdown-mode nyan-mode ace-window multiple-cursors flycheck fill-column-indicator color-theme-solarized avy))
  '(projectile-globally-ignored-directories
    '(".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".ensime_cache"))
  '(python-indent-offset 4)
@@ -94,15 +94,39 @@
  '(sml/filename ((t (:inherit sml/global))))
  '(sml/line-number ((t (:inherit sml/prefix :weight normal)))))
 
-;; Bootstrap `use-package'
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
-(require 'use-package)
-
 (setq backup-directory-alist `((".*" . ,temporary-file-directory))
       auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+
+;; A few more useful configurations...
+(use-package emacs
+  :init
+  ;; Add prompt indicator to `completing-read-multiple'.
+  ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
+  (defun crm-indicator (args)
+    (cons (format "[CRM%s] %s"
+                  (replace-regexp-in-string
+                   "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+                   crm-separator)
+                  (car args))
+          (cdr args)))
+  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+
+  ;; Do not allow the cursor in the minibuffer prompt
+  (setq minibuffer-prompt-properties
+        '(read-only t cursor-intangible t face minibuffer-prompt))
+  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+
+  ;; Support opening new minibuffers from inside existing minibuffers.
+  (setq enable-recursive-minibuffers t)
+
+  ;; Emacs 28 and newer: Hide commands in M-x which do not work in the current
+  ;; mode.  Vertico commands are hidden in normal buffers. This setting is
+  ;; useful beyond Vertico.
+  (setq read-extended-command-predicate #'command-completion-default-include-p))
+
+(use-package savehist
+  :init
+  (savehist-mode))
 
 (use-package zerodark-theme
   :ensure t
@@ -124,6 +148,45 @@
   :ensure t
   :init
   (global-flycheck-mode))
+
+;; Enable vertico
+(use-package vertico
+  :ensure t
+  :init
+  (vertico-mode)
+  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
+  (setq vertico-cycle t)
+  )
+
+(use-package orderless
+  :ensure t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
+
+;; Enable rich annotations using the Marginalia package
+(use-package marginalia
+  :ensure t
+  ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
+  ;; available in the *Completions* buffer, add it to the
+  ;; `completion-list-mode-map'.
+  :bind (:map minibuffer-local-map
+         ("M-A" . marginalia-cycle))
+
+  ;; The :init section is always executed.
+  :init
+
+  ;; Marginalia must be activated in the :init section of use-package such that
+  ;; the mode gets enabled right away. Note that this forces loading the
+  ;; package.
+  (marginalia-mode))
+
+(use-package all-the-icons-completion
+  :ensure t
+  :init
+  (all-the-icons-completion-mode)
+  :config
+  (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup))
 
 (use-package ag
   :ensure t)
@@ -150,23 +213,6 @@
   ("C-x o" . ace-window)
   :config
   (setq aw-keys '(?a ?u ?i ?e ?t ?s ?r ?n)))
-
-(use-package swiper
-  :ensure t
-  :bind
-  (("\C-s" . swiper)
-   ("\C-r" . swiper)
-   ("C-c C-r" . ivy-resume))
-  :init
-  (ivy-mode t)
-  (setq ivy-count-format "(%d/%d) ")
-  (setq ivy-use-virtual-buffers t))
-
-(use-package counsel
-  :ensure t
-  :bind
-  (("M-x" . counsel-M-x)
-  ("M-y" . counsel-yank-pop)))
 
 (use-package magit
   :ensure t
