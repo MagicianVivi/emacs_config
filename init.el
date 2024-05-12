@@ -32,10 +32,8 @@
  '(eldoc-echo-area-use-multiline-p 'truncate-sym-name-if-fit)
  '(electric-indent-mode t)
  '(electric-pair-mode t)
- '(elm-indent-after-keywords '(("of" 2) ("in" 2 0) ("{" 2) "if" "then" "else" "let"))
- '(elm-indent-offset 2)
  '(flycheck-checkers
-   '(elm idris c/c++-clang c/c++-cppcheck coffee coffee-coffeelint css-csslint d-dmd elixir emacs-lisp emacs-lisp-checkdoc erlang go-gofmt go-build go-test haml haskell-ghc haskell-hlint html-tidy javascript-jshint javascript-gjslint json-jsonlint less lua perl php php-phpmd php-phpcs puppet-parser puppet-lint python-flake8 python-pylint rst ruby-rubocop ruby rust-cargo rust ruby-jruby sass scala scss sh-bash slim tex-chktex tex-lacheck xml-xmlstarlet xml-xmllint yaml-ruby))
+   '(idris c/c++-clang c/c++-cppcheck coffee coffee-coffeelint css-csslint d-dmd elixir emacs-lisp emacs-lisp-checkdoc erlang go-gofmt go-build go-test haml haskell-ghc haskell-hlint html-tidy javascript-jshint javascript-gjslint json-jsonlint less lua perl php php-phpmd php-phpcs puppet-parser puppet-lint python-flake8 python-pylint rst ruby-rubocop ruby rust-cargo rust ruby-jruby sass scala scss sh-bash slim tex-chktex tex-lacheck xml-xmlstarlet xml-xmllint yaml-ruby))
  '(font-use-system-font t)
  '(foreground-color nil)
  '(frame-background-mode 'dark)
@@ -58,8 +56,6 @@
  '(python-indent-offset 4)
  '(require-final-newline nil)
  '(rust-indent-offset 2)
- '(safe-local-variable-values
-   '((intero-targets "intero-demo:lib" "intero-demo:test:intero-demo-test")))
  '(scroll-bar-mode nil)
  '(show-trailing-whitespace t)
  '(tab-width 2)
@@ -132,14 +128,6 @@
 (use-package ag
   :ensure t)
 
-(use-package projectile
-  :ensure t
-  :bind
-  ("C-c p" . projectile-command-map)
-  :config
-  (projectile-mode)
-  (setq projectile-completion-system 'ivy))
-
 (use-package fill-column-indicator
   :ensure t
   :config
@@ -180,11 +168,6 @@
   (("M-x" . counsel-M-x)
   ("M-y" . counsel-yank-pop)))
 
-(use-package counsel-projectile
-  :ensure t
-  :config
-  (counsel-projectile-mode))
-
 (use-package magit
   :ensure t
   :config
@@ -193,10 +176,6 @@
 (use-package forge
   :ensure t
   :after magit)
-
-(use-package docker
-  :ensure t
-  :bind ("C-c d" . docker))
 
 (use-package markdown-mode
   :ensure t
@@ -209,27 +188,6 @@
   (add-hook 'after-init-hook 'global-company-mode)
   (setq company-tooltip-align-annotations t))
 
-(use-package rust-mode
-  :ensure t)
-
-(use-package flycheck-rust
-  :ensure t
-  :config
-  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
-
-(use-package racer
-  :ensure t
-  :config
-  (add-hook 'rust-mode-hook #'racer-mode)
-  (add-hook 'racer-mode-hook #'eldoc-mode)
-  (add-hook 'racer-mode-hook #'company-mode)
-  (setq racer-rust-src-path "/usr/src/rust/src/"))
-
-(use-package cargo
-  :ensure t
-  :config
-  (add-hook 'rust-mode-hook 'cargo-minor-mode))
-
 (use-package which-key
   :ensure t
   :config
@@ -239,16 +197,6 @@
 (use-package scala-mode
   :ensure t
   :interpreter ("scala" . scala-mode))
-
-(use-package elm-mode
-  :ensure t
-  :config
-  (add-to-list 'company-backends 'company-elm))
-
-(use-package flycheck-elm
-  :ensure t
-  :config
-  (add-hook 'flycheck-mode-hook #'flycheck-elm-setup))
 
 (use-package terraform-mode
   :ensure t)
@@ -267,7 +215,7 @@
 (setq eglot-ignored-server-capabilities '(:inlayHintProvider))
 
 ;; Hack to blacklist a list of minor mode by regexp
-(setq rm-blacklist (mapconcat 'identity [" hl-p" " Guide" " Projectile" "ivy" "company"] "\\|"))
+(setq rm-blacklist (mapconcat 'identity [" hl-p" " Guide" "ivy" "company"] "\\|"))
 
 (add-hook 'before-save-hook 'whitespace-cleanup)
 
