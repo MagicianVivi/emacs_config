@@ -42,15 +42,15 @@
  '(js-indent-level 2)
  '(menu-bar-mode nil)
  '(ns-right-alternate-modifier 'none)
+ '(org-agenda-files '("~/sprint_notes/ENG-12-MEQA-2025-02-26.org"))
  '(org-export-backends '(ascii beamer html icalendar latex md))
  '(org-log-done 'time)
  '(org-todo-keyword-faces
-   '(("IN PROGRESS" . "#cb4b16")
-     ("TO MERGE/DEPLOY" . "#b58900")))
+   '(("IN PROGRESS" . "#cb4b16")))
  '(org-todo-keywords
-   '((sequence "TODO" "IN PROGRESS" "TO MERGE/DEPLOY" "|" "DONE")))
+   '((sequence "TODO" "IN PROGRESS" "|" "DONE")))
  '(package-selected-packages
-   '(flycheck-eglot vertico-directory consult-dir all-the-icons-dired all-the-icons-completion marginalia eglot sqlite3 docker exec-path-from-shell mermaid-mode multi-term gitmoji google-c-style flycheck-kotlin kotlin-mode flycheck-gradle gradle-mode forge posframe which-key dap-mode lsp-java treemacs-projectile treemacs iedit xref ivy-xref dumb-jump yasnippet lsp-metals rust-mode swiper projectile zerodark-theme use-package yaml-mode sbt-mode scala-mode racer rainbow-delimiters lsp-ui lsp-mode company-lsp typescript-mode magit ag alchemist cargo flycheck-rust rainbow-identifiers material-theme doom-themes terraform-mode counsel counsel-projectile flycheck-elm elm-mode cql-mode idris-mode groovy-mode guide-key company markdown-mode nyan-mode ace-window multiple-cursors flycheck fill-column-indicator color-theme-solarized avy))
+   '(eglot flycheck-eglot vertico-directory consult-dir all-the-icons-dired all-the-icons-completion marginalia sqlite3 docker exec-path-from-shell mermaid-mode multi-term gitmoji google-c-style flycheck-kotlin kotlin-mode flycheck-gradle gradle-mode forge posframe which-key dap-mode lsp-java treemacs-projectile treemacs iedit xref ivy-xref dumb-jump yasnippet lsp-metals rust-mode swiper projectile zerodark-theme use-package yaml-mode sbt-mode scala-mode racer rainbow-delimiters lsp-ui lsp-mode company-lsp typescript-mode magit ag alchemist cargo flycheck-rust rainbow-identifiers material-theme doom-themes terraform-mode counsel counsel-projectile flycheck-elm elm-mode cql-mode idris-mode groovy-mode guide-key company markdown-mode nyan-mode ace-window multiple-cursors flycheck fill-column-indicator color-theme-solarized avy))
  '(projectile-globally-ignored-directories
    '(".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".ensime_cache"))
  '(python-indent-offset 4)
@@ -251,7 +251,7 @@
          ("M-g i" . consult-imenu)
          ("M-g I" . consult-imenu-multi)
          ;; M-s bindings in `search-map'
-         ("M-s d" . consult-find)                  ;; Alternative: consult-fd
+         ("M-s d" . consult-fd)                  ;; Alternative: consult-find
          ("M-s c" . consult-locate)
          ("M-s g" . consult-grep)
          ("M-s G" . consult-git-grep)
