@@ -334,7 +334,13 @@
 
 (use-package consult-lsp
   :ensure t)
-(add-hook 'before-save-hook 'whitespace-cleanup)
+
+;; ws-butler plutot que `whitespace-cleanup' sur before-save-hook : il ne
+;; touche que les lignes effectivement editees, ce qui evite de reformater
+;; tout un fichier dont on ne maitrise pas le style.
+(use-package ws-butler
+  :ensure t
+  :hook (prog-mode text-mode))
 
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)

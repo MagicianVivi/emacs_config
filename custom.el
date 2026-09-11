@@ -80,7 +80,8 @@
                 marginalia markdown-mode mermaid-mode mistty
                 multi-term multiple-cursors orderless popup projectile
                 rainbow-delimiters rainbow-identifiers scala-mode
-                terraform-mode vertico vterm yaml-mode zerodark-theme))
+                terraform-mode vertico vterm ws-butler yaml-mode
+                zerodark-theme))
  '(package-vc-selected-packages
    '((agent-shell-manager :url
                           "https://github.com/jethrokuan/agent-shell-manager")
