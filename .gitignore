@@ -1,2 +1,38 @@
-*\~
+# Packages et natif-compilation
+/elpa/
+/eln-cache/
+/share/
+
+# Etat runtime
+/.cache/
+/auto-save-list/
+/history
+/projects
+/bookmarks
+/recentf
+/savehist
+/tramp
+/transient/
 projectile-bookmarks.eld
+.mc-lists.el
+
+# LSP / DAP
+/.lsp-session-v1
+/.dap-breakpoints
+/workspace/
+/eclipse.jdt.ls/
+/eca/
+
+# Forge
+/forge-database*.sqlite
+
+# Agents
+/agent/
+/agent-recall/
+/agent-shell-pet/
+
+# Temporaires
+*~
+\#*\#
+*.elc
+flycheck_*.el
