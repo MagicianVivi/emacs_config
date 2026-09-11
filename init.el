@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;; Fix around broken tls version
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
@@ -28,7 +30,12 @@
  '(compilation-scroll-output t)
  '(cursor-color nil)
  '(custom-safe-themes
-   '("0c85f7c35159e4de3f0a8f02023880a72202a7082ea88d59887c1ea47b343963"
+   '("95cda51cb6a3fdf667a7710cf85cd67726440e556b91a316ebc5197f077903bb"
+     "b0cedf3c6d8fbbf65934e2045dddacff0a031992f2f389215adcb0ca741347c3"
+     "cbe7f2b12e2739b720225769cdc3a69dfb8a31544d5f86960a3fbdae4c58c0b8"
+     "68a0201c7bb9dba9c9b6fd6662d1f3daf8865860ba8fc56d0201be859da535fc"
+     "c4df9006b9eb32599d758800a32f3487c2cdf13826084511783b47d419024af2"
+     "0c85f7c35159e4de3f0a8f02023880a72202a7082ea88d59887c1ea47b343963"
      "c0f4b66aa26aa3fded1cbefe50184a08f5132756523b640f68f3e54fd5f584bd"
      "d88049c628f3a8a92f9e46982d3e891867e4991de2b3a714f29f9f5eb91638c1"
      "08ef1356470a9d3bf363ffab0705d90f8a492796e9db489936de4bde6a4fdb19"
@@ -80,7 +87,9 @@
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(js-indent-level 2)
+ '(lsp-disabled-clients '(semgrep-ls))
  '(menu-bar-mode nil)
+ '(mermaid-output-format ".png")
  '(ns-auto-hide-menu-bar nil)
  '(ns-right-alternate-modifier 'none)
  '(org-agenda-files '("~/sprint_notes/ENG-12-MEQA-2025-02-26.org"))
@@ -89,20 +98,26 @@
  '(org-todo-keyword-faces '(("IN PROGRESS" . "#cb4b16")))
  '(org-todo-keywords '((sequence "TODO" "IN PROGRESS" "|" "DONE")))
  '(package-selected-packages
-   '(all-the-icons-completion all-the-icons-dired consult-dir
-                              consult-flycheck consult-lsp corfu eat
-                              eglot-java exec-path-from-shell
-                              fancy-compilation flycheck-eglot
-                              flycheck-kotlin forge gemini-cli
-                              git-timemachine google-c-style iedit
-                              kind-icon kotlin-mode lsp-java
-                              marginalia mistty multi-term orderless
-                              popup projectile rainbow-delimiters
-                              rainbow-identifiers scala-mode
-                              terraform-mode vertico vterm yaml-mode
-                              zerodark-theme))
+   '(agent-recall agent-shell-attention agent-shell-manager
+                  agent-shell-pet all-the-icons-completion
+                  all-the-icons-dired batppuccin catppuccin-theme
+                  consult-dir consult-flycheck consult-lsp corfu
+                  dumb-jump eat eglot-java exec-path-from-shell
+                  fancy-compilation flycheck-eglot flycheck-kotlin
+                  forge gemini-cli git-timemachine google-c-style
+                  iedit kind-icon kotlin-mode lsp-java marginalia
+                  mermaid-mode mistty multi-term multiple-cursors
+                  orderless popup projectile rainbow-delimiters
+                  rainbow-identifiers scala-mode terraform-mode
+                  vertico vterm yaml-mode zerodark-theme))
  '(package-vc-selected-packages
-   '((gemini-cli :url "https://github.com/linchen2chris/gemini-cli.el")))
+   '((agent-shell-manager :url
+                          "https://github.com/jethrokuan/agent-shell-manager")
+     (agent-shell-pet :url
+                      "https://github.com/lgmoneda/agent-shell-pet")
+     (agent-shell-attention :url
+                            "https://github.com/ultronozm/agent-shell-attention.el")
+     (gemini-cli :url "https://github.com/linchen2chris/gemini-cli.el")))
  '(projectile-globally-ignored-directories
    '(".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox"
      ".svn" ".ensime_cache"))
@@ -153,6 +168,7 @@
  '(eat-term-color-7 ((t (:inherit term-color-white))))
  '(eat-term-color-8 ((t (:inherit term-color-bright-black))))
  '(eat-term-color-9 ((t (:inherit term-color-bright-red))))
+ '(menu ((t (:inverse-video nil))))
  '(sml/col-number ((t (:inherit sml/prefix))))
  '(sml/filename ((t (:inherit sml/global))))
  '(sml/line-number ((t (:inherit sml/prefix :weight normal)))))
@@ -355,8 +371,8 @@
    consult-theme :preview-key '(:debounce 0.2 any)
    consult-ripgrep consult-git-grep consult-grep
    consult-bookmark consult-recent-file consult-xref
-   consult--source-bookmark consult--source-file-register
-   consult--source-recent-file consult--source-project-recent-file
+   consult-source-bookmark consult-source-file-register
+   consult-source-recent-file consult-source-project-recent-file
    ;; :preview-key "M-."
    :preview-key '(:debounce 0.4 any))
   )
@@ -496,10 +512,41 @@
 
 (use-package eat :ensure t)
 (use-package popup :ensure t)
-(use-package gemini-cli :ensure t
-  :vc (:url "https://github.com/linchen2chris/gemini-cli.el" :rev :newest)
-  :config (gemini-cli-mode)
-  :bind-keymap ("C-c c" . gemini-cli-command-map))
+
+(use-package agent-shell
+  :ensure t
+  :config
+  (setq agent-shell-session-strategy 'prompt))
+
+(use-package agent-shell-manager
+  :ensure t
+  :vc (:url "https://github.com/jethrokuan/agent-shell-manager" :rev :newest)
+  :after agent-shell)
+
+(use-package agent-shell-pet
+  :ensure t
+  :vc (:url "https://github.com/lgmoneda/agent-shell-pet" :rev :newest)
+  :after agent-shell
+  :config
+  (setq agent-shell-pet-renderer 'macos-native
+      agent-shell-pet-speech-bubble-theme 'light
+      agent-shell-pet-size 'medium)
+  (global-agent-shell-pet-mode 1))
+
+(use-package agent-recall
+  :ensure t
+  :hook (agent-shell-mode . agent-recall-track-sessions)
+  :config
+  (setq agent-recall-search-paths '("~/Projects")
+        agent-recall-search-function 'consult-ripgrep))
+
+(use-package dumb-jump
+  :ensure t
+  :custom
+  (dumb-jump-prefer-searcher 'rg)
+  (xref-show-definitions-function #'consult-xref)
+  :config
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
 (provide 'init)
 ;;; init.el ends here
