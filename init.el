@@ -296,7 +296,6 @@
   (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode)))
 
 (use-package which-key
-  :ensure t
   :config
   (which-key-mode))
 
@@ -313,11 +312,17 @@
 
 (require 'uniquify)
 
+;; Le `setf' reste enveloppe dans un `eval' : l'accesseur de struct
+;; n'expose son expandeur gv qu'une fois lsp-mode charge, et differer la
+;; macroexpansion est ce qui rend l'affectation possible.
+(defun my/lsp-reset-session-folders (&rest _args)
+  (eval '(setf (lsp-session-server-id->folders (lsp-session)) (ht))))
+
 (use-package lsp-mode
   :ensure t
   :config
   (setq lsp-headerline-breadcrumb-enable nil)
-  (advice-add 'lsp :before (lambda (&rest _args) (eval '(setf (lsp-session-server-id->folders (lsp-session)) (ht)))))
+  (advice-add 'lsp :before #'my/lsp-reset-session-folders)
   :hook ((lsp-mode . lsp-enable-which-key-integration)))
 
 (use-package lsp-java
@@ -329,16 +334,12 @@
 
 (use-package consult-lsp
   :ensure t)
-;; Hack to blacklist a list of minor mode by regexp
-(setq rm-blacklist (mapconcat 'identity [" hl-p" " Guide" "ivy" "company"] "\\|"))
-
 (add-hook 'before-save-hook 'whitespace-cleanup)
 
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 (setq mac-command-modifier 'control)
 (setq mac-right-command-modifier 'super)
-(setq auth-sources '("~/.authinfo"))
 
 (use-package google-c-style
   :ensure t
@@ -389,7 +390,6 @@
   :ensure t
   :custom
   (dumb-jump-prefer-searcher 'rg)
-  (xref-show-definitions-function #'consult-xref)
   :config
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
