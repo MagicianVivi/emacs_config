@@ -1,19 +1,15 @@
 ;; -*- lexical-binding: t; -*-
 
-;; Fix around broken tls version
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-
 (require 'package)
-(setq package-enable-at-startup nil)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives
              '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
 
-(package-initialize)
-
-(require 'exec-path-from-shell)
-(when (memq window-system '(mac ns x))
+(use-package exec-path-from-shell
+  :ensure t
+  :if (memq window-system '(mac ns x))
+  :config
   (exec-path-from-shell-initialize))
 
 ;; Les blocs générés par Custom vivent dans custom.el : sinon Emacs
