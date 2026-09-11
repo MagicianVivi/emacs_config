@@ -78,10 +78,10 @@
                 flycheck flycheck-eglot flycheck-kotlin forge
                 git-timemachine google-c-style
                 iedit kind-icon kotlin-mode lsp-java lsp-mode magit
-                marginalia markdown-mode mermaid-mode mistty
-                multi-term multiple-cursors orderless popup projectile
+                marginalia markdown-mode mermaid-mode
+                multiple-cursors orderless popup projectile
                 rainbow-delimiters rainbow-identifiers scala-mode
-                terraform-mode vertico vterm ws-butler yaml-mode
+                terraform-mode vertico ws-butler yaml-mode
                 zerodark-theme))
  '(package-vc-selected-packages
    '((agent-shell-manager :url
@@ -98,22 +98,6 @@
  '(rust-indent-offset 2)
  '(scroll-bar-mode nil)
  '(tab-width 2)
- '(term-bind-key-alist
-   '(("C-c C-c" . term-interrupt-subjob) ("C-c C-e" . term-send-esc)
-     ("C-p" . previous-line) ("C-n" . next-line)
-     ("C-s" . isearch-forward) ("C-r" . isearch-backward)
-     ("C-m" . term-send-return) ("C-y" . term-paste)
-     ("M-f" . term-send-forward-word)
-     ("M-b" . term-send-backward-word) ("M-o" . term-send-backspace)
-     ("M-p" . term-send-up) ("M-n" . term-send-down)
-     ("M-M" . term-send-forward-kill-word)
-     ("M-N" . term-send-backward-kill-word)
-     ("<C-backspace>" . term-send-backward-kill-word)
-     ("M-r" . term-send-reverse-search-history)
-     ("M-," . term-send-raw) ("M-." . completion-at-point)))
- '(term-unbind-key-list
-   '("C-z" "C-x" "C-c" "C-h" "C-y" "<ESC>" "<f10>" "<f5>" "<f1>" "<f10>"
-     "C-p"))
  '(tool-bar-mode nil)
  '(tool-bar-style 'text)
  '(tramp-default-method "ssh")
