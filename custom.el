@@ -88,8 +88,7 @@
      (agent-shell-pet :url
                       "https://github.com/lgmoneda/agent-shell-pet")
      (agent-shell-attention :url
-                            "https://github.com/ultronozm/agent-shell-attention.el")
-     (gemini-cli :url "https://github.com/linchen2chris/gemini-cli.el")))
+                            "https://github.com/ultronozm/agent-shell-attention.el")))
  '(projectile-globally-ignored-directories
    '(".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox"
      ".svn" ".ensime_cache"))
