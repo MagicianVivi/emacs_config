@@ -381,8 +381,8 @@
   :after agent-shell
   :config
   (setq agent-shell-pet-renderer 'macos-native
-      agent-shell-pet-speech-bubble-theme 'light
-      agent-shell-pet-size 'medium)
+        agent-shell-pet-speech-bubble-theme 'dark
+        agent-shell-pet-size 'small)
   (global-agent-shell-pet-mode 1))
 
 (use-package agent-recall
