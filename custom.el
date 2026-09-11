@@ -74,8 +74,9 @@
                 all-the-icons-completion all-the-icons-dired avy
                 batppuccin catppuccin-theme consult consult-dir
                 consult-flycheck consult-lsp corfu dumb-jump eat
-                exec-path-from-shell fancy-compilation flycheck
-                flycheck-kotlin forge git-timemachine google-c-style
+                eglot-java exec-path-from-shell fancy-compilation
+                flycheck flycheck-eglot flycheck-kotlin forge
+                git-timemachine google-c-style
                 iedit kind-icon kotlin-mode lsp-java lsp-mode magit
                 marginalia markdown-mode mermaid-mode mistty
                 multi-term multiple-cursors orderless popup projectile
