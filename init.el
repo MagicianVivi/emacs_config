@@ -18,12 +18,12 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file t)
 
-(setq backup-directory-alist `((".*" . ,temporary-file-directory))
-      auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
-
 ;; A few more useful configurations...
 (use-package emacs
   :init
+  (setq backup-directory-alist `((".*" . ,temporary-file-directory))
+        auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+
   ;; Add prompt indicator to `completing-read-multiple'.
   ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
   (defun crm-indicator (args)
@@ -284,7 +284,11 @@
   (setq aw-keys '(?a ?u ?i ?e ?t ?s ?r ?n)))
 
 (use-package magit
-  :ensure t)
+  :ensure t
+  :config
+  (with-eval-after-load 'project
+    (define-key project-prefix-map "m" #'magit-project-status)
+    (add-to-list 'project-switch-commands '(magit-project-status "Magit") t)))
 
 (use-package forge
   :ensure t
@@ -294,6 +298,9 @@
   :ensure t
   :config
   (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode)))
+
+(use-package mermaid-mode
+  :ensure t)
 
 (use-package which-key
   :config
@@ -309,8 +316,6 @@
 
 (use-package iedit
   :ensure t)
-
-(require 'uniquify)
 
 ;; Le `setf' reste enveloppe dans un `eval' : l'accesseur de struct
 ;; n'expose son expandeur gv qu'une fois lsp-mode charge, et differer la
@@ -342,11 +347,6 @@
   :ensure t
   :hook (prog-mode text-mode))
 
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-(setq mac-command-modifier 'control)
-(setq mac-right-command-modifier 'super)
-
 (use-package google-c-style
   :ensure t
   :config
@@ -375,15 +375,13 @@
   :vc (:url "https://github.com/jethrokuan/agent-shell-manager" :rev :newest)
   :after agent-shell)
 
-(use-package agent-shell-pet
+(use-package agent-shell-dashboard
   :ensure t
-  :vc (:url "https://github.com/lgmoneda/agent-shell-pet" :rev :newest)
+  :vc (:url "https://github.com/wandersoncferreira/agent-shell-dashboard" :rev :newest)
   :after agent-shell
-  :config
-  (setq agent-shell-pet-renderer 'macos-native
-        agent-shell-pet-speech-bubble-theme 'dark
-        agent-shell-pet-size 'small)
-  (global-agent-shell-pet-mode 1))
+  :commands (agent-shell-dashboard)
+  :init
+  (setq initial-buffer-choice #'agent-shell-dashboard))
 
 (use-package agent-recall
   :ensure t
